@@ -36,13 +36,13 @@ export const Inicio = () => {
     setpokemos(pokemosApi);
   };
 
-  const getsrc = (pokemon) =>{
-    axios.get(pokemon)
-    .then(({data}) => {
-      console.log(data.sprites.front_default);
-      const imgSrc = data.sprites.front_default;
-    })
-  };
+  // const getsrc = (pokemon) =>{
+  //   axios.get(pokemon)
+  //   .then(({data}) => {
+  //     console.log(data.sprites.front_default);
+  //     const imgSrc = data.sprites.front_default;
+  //   })
+  // };
 
   return (
     <div>
@@ -55,7 +55,7 @@ export const Inicio = () => {
               <div>
                 {pokemon.name}
                 {console.log(pokemon)}
-                <img src={getsrc(pokemon.url)}></img>
+                <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
               </div>
             </div>
           )
