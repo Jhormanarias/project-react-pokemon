@@ -64,7 +64,10 @@ export const Inicio = () => {
       <h1>
         {" "}
         {/* Titulo */}
-        Pokemon 
+        Pokemon
+        <br />
+        {/* Llamo al componente busqueda */}
+        <Busqueda setpokemos={setpokemos} />
         {/* Aquí recorremos cada uno de los pokemon que trajo con la funcion map(que sirve para recorrer un objeto)*/}
         {pokemos.pokemons.map(pokemon=>{
           return(
@@ -76,11 +79,15 @@ export const Inicio = () => {
                 {console.log(pokemon)}
                 {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
                 <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
+                <Button setpokemos={setpokemos} />
               </div>
             </div>
           )
         })}
       </h1>
+
+      <input type="search" name="search" id="" />
+      
 
       {/* Llamo varias veces el componente boton hola*/}
       <Button setpokemos={setpokemos} />
@@ -105,8 +112,23 @@ const Button = ({ setpokemos }) => {
   function ss(params) {}
   return (
     <button>
-      hola
+      -
       <icon setpokemos={setpokemos}></icon>
     </button>
+  );
+};
+
+
+//Input para busqueda
+const Busqueda = ({ setpokemos }) => {
+  return(
+    <div>
+      <input type="search" name="" id="" placeholder="Busca aquí el pokemon" />
+      <button>
+        O-
+        <icon setpokemos={setpokemos}></icon>
+      </button>
+    </div>
+      
   );
 };
