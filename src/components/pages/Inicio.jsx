@@ -12,7 +12,7 @@ const initialState = {
   pokemon : {
     pokemons : [],
     status : "Noloaded",
-    pokeimg : ""
+    searchtext : ""
   }
 };
 //Para exportar el inicio
@@ -59,6 +59,31 @@ export const Inicio = () => {
   // };
 
   //El retorno para lo visual de la página
+  //Input para busqueda
+const Busqueda = () => {
+  const handleChange = e =>{
+    console.log(e.target.value);
+    setpokemos({...pokemos,
+      searchtext: e.target.value
+    })
+  };
+  return(
+    <div className="input-group mb-3 campoSearch">
+      {pokemos.searchtext}
+      <input 
+        className='search form-control'
+        type='search' 
+        onChange={handleChange}
+        value={pokemos.searchtext}
+        placeholder="Search Pokemon"
+    />
+      <button className="btn btn-primary">
+      🔍
+      </button>
+    </div>
+      
+  );
+};
   return (
     <div>
       <h1>
@@ -67,7 +92,8 @@ export const Inicio = () => {
         Pokemon
         <br />
         {/* Llamo al componente busqueda */}
-        <Busqueda setpokemos={setpokemos} />
+        {/*  */}
+        <Busqueda />
         {/* Aquí recorremos cada uno de los pokemon que trajo con la funcion map(que sirve para recorrer un objeto)*/}
         {pokemos.pokemons.map(pokemon=>{
           return(
@@ -85,14 +111,12 @@ export const Inicio = () => {
           )
         })}
       </h1>
-
-      <input type="search" name="search" id="" />
       
 
       {/* Llamo varias veces el componente boton hola*/}
+      {/* <Button setpokemos={setpokemos} />
       <Button setpokemos={setpokemos} />
-      <Button setpokemos={setpokemos} />
-      <Button setpokemos={setpokemos} />
+      <Button setpokemos={setpokemos} /> */}
 
       {/* En la última imagen del logo hago que cambie el cursor
       al hacer clic llama la funcion cambiar pokemon(que modifica unos 
@@ -105,30 +129,19 @@ export const Inicio = () => {
       />
     </div>
   );
+  
 };
 
 // returnamos boton hola
 const Button = ({ setpokemos }) => {
   function ss(params) {}
   return (
-    <button>
-      -
+    <button className="btn btn-danger">
+      X
       <icon setpokemos={setpokemos}></icon>
     </button>
   );
 };
 
 
-//Input para busqueda
-const Busqueda = ({ setpokemos }) => {
-  return(
-    <div>
-      <input type="search" name="" id="" placeholder="Busca aquí el pokemon" />
-      <button>
-        O-
-        <icon setpokemos={setpokemos}></icon>
-      </button>
-    </div>
-      
-  );
-};
+

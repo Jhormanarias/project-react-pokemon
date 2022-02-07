@@ -17,3 +17,9 @@ code {
   width: 100px;
   height: 100px;
 }
+
+.campoSearch
+{
+  padding-left: 30%;
+  padding-right: 30%;
+}
