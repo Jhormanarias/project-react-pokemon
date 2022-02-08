@@ -12,7 +12,8 @@ const initialState = {
   pokemon : {
     pokemons : [],
     status : "Noloaded",
-    searchtext : ""
+    searchtext : "",
+    divContainer: true
   }
 };
 //Para exportar el inicio
@@ -21,6 +22,7 @@ export const Inicio = () => {
   const [pokemos, setpokemos] = useState(initialState.pokemon); 
   //No se usa
   const [contador, setContador] = useState(initialState.count);
+  const [esconderPokemon, setesconderPokemon] = useState(true)
   useEffect(() => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if(pokemos.status=="Noloaded"){
@@ -84,6 +86,23 @@ const Busqueda = () => {
       
   );
 };
+
+// returnamos boton eliminar
+const Button = ({ setpokemos }) => {
+  // const handleChange = e =>{
+    
+  //   console.log("botón eliminar presionado");
+
+  // }
+ return (
+   <button className="btn btn-danger"
+   onClick={()=>setesconderPokemon(false)}>
+     X
+     <icon setpokemos={setpokemos}></icon>
+   </button>
+ );
+};
+
   return (
     <div>
       <h1>
@@ -98,7 +117,8 @@ const Busqueda = () => {
         {pokemos.pokemons.map(pokemon=>{
           return(
             <div>
-              <div>
+              {
+                esconderPokemon?<div id="pokeCard">
                 {/* Aquí traemos el nombre del pokemon */}
                 {pokemon.name}
                 {/* Imprimimos en consola lo que trae pokemon */}
@@ -106,7 +126,9 @@ const Busqueda = () => {
                 {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
                 <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
                 <Button setpokemos={setpokemos} />
-              </div>
+              </div>:null
+              }
+              
             </div>
           )
         })}
@@ -132,16 +154,7 @@ const Busqueda = () => {
   
 };
 
-// returnamos boton hola
-const Button = ({ setpokemos }) => {
-  function ss(params) {}
-  return (
-    <button className="btn btn-danger">
-      X
-      <icon setpokemos={setpokemos}></icon>
-    </button>
-  );
-};
+
 
 
 
