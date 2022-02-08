@@ -50,18 +50,7 @@ export const Inicio = () => {
     setpokemos(pokemosApi);
   };
 
-  //Aquí ibamos a usar una función para obtener el link  de la imagen del pokemon
-
-  // const getsrc = (pokemon) =>{
-  //   axios.get(pokemon)
-  //   .then(({data}) => {
-  //     console.log(data.sprites.front_default);
-  //     const imgSrc = data.sprites.front_default;
-  //   })
-  // };
-
-  //El retorno para lo visual de la página
-  //Input para busqueda
+//Input para busqueda-----------------------------------------------------------------------
 const Busqueda = () => {
   const handleChange = e =>{
     console.log(e.target.value);
@@ -86,8 +75,9 @@ const Busqueda = () => {
       
   );
 };
+//Fin input busqueda-----------------------------------------------------------------------
 
-// returnamos boton eliminar
+// returnamos boton eliminar---------------------------------------------------------------
 const Button = ({ setpokemos }) => {
   // const handleChange = e =>{
     
@@ -102,13 +92,19 @@ const Button = ({ setpokemos }) => {
    </button>
  );
 };
+//Fin botón eliminar-------------------------------------------------------------------
 
+//Inicio del return del inicio(página inicio, componente)------------------------------------
   return (
     <div>
       <h1>
-        {" "}
-        {/* Titulo */}
-        Pokemon
+        {/* Titulo en imagen */}
+        <img
+          style={{ cursor: "pointer" }}
+          onClick={() => cambiarpokemon()}
+          src="./logoPokemon.png"
+          width="500"
+        />
         <br />
         {/* Llamo al componente busqueda */}
         {/*  */}
@@ -118,15 +114,18 @@ const Button = ({ setpokemos }) => {
           return(
             <div>
               {
-                esconderPokemon?<div id="pokeCard">
-                {/* Aquí traemos el nombre del pokemon */}
-                {pokemon.name}
-                {/* Imprimimos en consola lo que trae pokemon */}
-                {console.log(pokemon)}
-                {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
-                <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
-                <Button setpokemos={setpokemos} />
-              </div>:null
+                //Este esconderPokemon es un estado para poder ocultar un pokemon
+                esconderPokemon?
+                  <div id={"pokeCard_"+pokemon.name}>
+                  {/* Aquí traemos el nombre del pokemon */}
+                  {pokemon.name}
+                  {/* Imprimimos en consola lo que trae pokemon */}
+                  {console.log(pokemon)}
+                  {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
+                  <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
+                  <Button setpokemos={setpokemos} />
+                  </div>
+                :null
               }
               
             </div>
@@ -134,25 +133,11 @@ const Button = ({ setpokemos }) => {
         })}
       </h1>
       
-
-      {/* Llamo varias veces el componente boton hola*/}
-      {/* <Button setpokemos={setpokemos} />
-      <Button setpokemos={setpokemos} />
-      <Button setpokemos={setpokemos} /> */}
-
-      {/* En la última imagen del logo hago que cambie el cursor
-      al hacer clic llama la funcion cambiar pokemon(que modifica unos 
-      valores de una prueba anterior con unos diferentes (valor en texto plano)) */}
-      <img
-        style={{ cursor: "pointer" }}
-        onClick={() => cambiarpokemon()}
-        src="./logoPokemon.png"
-        width="500"
-      />
     </div>
   );
   
 };
+//Fin return del inicio(página inicio, componente)------------------------------------------
 
 
 
