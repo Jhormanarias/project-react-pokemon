@@ -12,8 +12,7 @@ const initialState = {
   pokemon : {
     pokemons : [],
     status : "Noloaded",
-    searchtext : "",
-    divContainer: true
+    searchtext : ""
   }
 };
 //Para exportar el inicio
