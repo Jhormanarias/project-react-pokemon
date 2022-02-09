@@ -23,7 +23,7 @@ _Menciona las herramientas que utilizaste para crear tu proyecto_
 
 ## Autores ✒️
 
-* **Jhorman Gañan Arias** - *Trabajo de todo el proyecto* - [villanuevand](https://github.com/Jhormanarias/
+* **Jhorman Gañan Arias** - *Trabajo de todo el proyecto* - [Project React Pokemon](https://github.com/Jhormanarias/
 
 ---
 ⌨️
