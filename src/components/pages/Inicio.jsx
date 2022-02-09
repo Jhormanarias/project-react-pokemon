@@ -26,7 +26,7 @@ export const Inicio = () => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if(pokemos.status=="Noloaded"){
       //peticion
-    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=151`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=30`)
     .then(({data}) => {
       console.log(data);
     //let pokemosApi = data.results;
@@ -77,7 +77,15 @@ const Busqueda = () => {
 //Fin input busqueda-----------------------------------------------------------------------
 
 // returnamos boton eliminar---------------------------------------------------------------
-const Button = ({ setpokemos }) => {
+const Button = ({ pokemonName }) => {
+  const functionPokemon = ()=>{
+    let pokemonsWithout = pokemos.pokemons.filter(p=>p.name!=pokemonName);
+    console.log(pokemonsWithout);
+    setpokemos({...pokemos,
+    pokemons: pokemonsWithout})
+  }
+  
+  
   // const handleChange = e =>{
     
   //   console.log("botón eliminar presionado");
@@ -85,7 +93,7 @@ const Button = ({ setpokemos }) => {
   // }
  return (
    <button className="btn btn-danger"
-   onClick={()=>setesconderPokemon(false)}>
+   onClick={()=>functionPokemon()}>
      X
      <icon setpokemos={setpokemos}></icon>
    </button>
@@ -112,21 +120,15 @@ const Button = ({ setpokemos }) => {
         {pokemos.pokemons.map(pokemon=>{
           return(
             <div>
-              {
-                //Este esconderPokemon es un estado para poder ocultar un pokemon
-                esconderPokemon?
-                  <div id={"pokeCard_"+pokemon.name}>
-                  {/* Aquí traemos el nombre del pokemon */}
-                  {pokemon.name}
-                  {/* Imprimimos en consola lo que trae pokemon */}
-                  {console.log(pokemon)}
-                  {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
-                  <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
-                  <Button setpokemos={setpokemos} />
-                  </div>
-                :null
-              }
-              
+                <div id={"pokeCard_"+pokemon.name}>
+                {/* Aquí traemos el nombre del pokemon */}
+                {pokemon.name}
+                {/* Imprimimos en consola lo que trae pokemon */}
+                {console.log(pokemon)}
+                {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
+                <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
+                <Button pokemonName={pokemon.name} />
+                </div>
             </div>
           )
         })}
