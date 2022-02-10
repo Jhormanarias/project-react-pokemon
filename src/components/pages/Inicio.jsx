@@ -50,16 +50,18 @@ export const Inicio = () => {
   };
 
 //Input para busqueda-----------------------------------------------------------------------
-const Busqueda = () => {
+const Busqueda = ({pokemonsFilter}) => {
   const handleChange = e =>{
     console.log(e.target.value);
     setpokemos({...pokemos,
       searchtext: e.target.value
     })
+    let pokemonFilter = pokemos.pokemons.filter(p => e.target.value == pokemonsFilter);
+    console.log(pokemonFilter);
   };
   return(
     <div className="input-group mb-3 campoSearch">
-      {pokemos.searchtext}
+      {/* {pokemos.searchtext} */}
       <input 
         className='search form-control'
         type='search' 
@@ -120,14 +122,14 @@ const Button = ({ pokemonName }) => {
         {pokemos.pokemons.map(pokemon=>{
           return(
             <div>
-                <div id={"pokeCard_"+pokemon.name}>
-                {/* Aquí traemos el nombre del pokemon */}
-                {pokemon.name}
-                {/* Imprimimos en consola lo que trae pokemon */}
-                {console.log(pokemon)}
-                {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
-                <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
-                <Button pokemonName={pokemon.name} />
+                <div id={"pokeCard_"+pokemon.name} pokemonsFilter={pokemon.name} >
+                  {/* Aquí traemos el nombre del pokemon */}
+                  {pokemon.name}
+                  {/* Imprimimos en consola lo que trae pokemon */}
+                  {console.log(pokemon)}
+                  {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
+                  <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
+                  <Button pokemonName={pokemon.name} />
                 </div>
             </div>
           )
