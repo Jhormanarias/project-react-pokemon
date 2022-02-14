@@ -21,7 +21,8 @@ export const Inicio = () => {
   const [pokemos, setpokemos] = useState(initialState.pokemon); 
   //No se usa
   const [contador, setContador] = useState(initialState.count);
-  const [esconderPokemon, setesconderPokemon] = useState(true)
+  const [esconderPokemon, setesconderPokemon] = useState(true);
+  const [searchPokemon, setsearchPokemon] = useState("");
   useEffect(() => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if(pokemos.status=="Noloaded"){
@@ -50,14 +51,15 @@ export const Inicio = () => {
   };
 
 //Input para busqueda-----------------------------------------------------------------------
-const Busqueda = ({pokemonsFilter}) => {
-  const handleChange = e =>{
-    console.log(e.target.value);
+//        {pokemonsFilter}
+const Busqueda = () => {
+  const handleChange = (e) =>{
     setpokemos({...pokemos,
       searchtext: e.target.value
     })
-    let pokemonFilter = pokemos.pokemons.filter(p => e.target.value == pokemonsFilter);
-    console.log(pokemonFilter);
+    // let pokemonFilter = pokemos.pokemons.filter(p => e.target.value == pokemonsFilter);
+    // console.log(pokemonFilter);
+    console.log(e.target.value);
   };
   return(
     <div className="input-group mb-3 campoSearch">
@@ -72,6 +74,11 @@ const Busqueda = ({pokemonsFilter}) => {
       <button className="btn btn-primary">
       🔍
       </button>
+      <input 
+      className='search form-control'
+      type='text'
+      placeholder="Search Pokemon 2"
+      />
     </div>
       
   );
