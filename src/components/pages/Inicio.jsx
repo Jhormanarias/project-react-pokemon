@@ -44,6 +44,27 @@ export const Inicio = () => {
 
   }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
 
+
+
+  useEffect(() => {
+    if(pokemos.searchtext.length>2){
+      axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
+      .then(({data})=>{
+        let array = [data.species];
+        console.log(data);
+        setpokemos({...pokemos,
+        pokemons: array})
+      })
+    }
+    if(pokemos.searchtext.length===0){
+      setpokemos({...pokemos,status:"Noloaded"})
+    }
+    
+  }, [pokemos.searchtext])
+  
+
+
+
   //Esto es de una prueba anterior
   const cambiarpokemon = () => {
     let pokemosApi = ["4", "5"];
@@ -52,15 +73,23 @@ export const Inicio = () => {
 
 //Input para busqueda-----------------------------------------------------------------------
 //        {pokemonsFilter}
-const Busqueda = () => {
+const Busqueda = ({pokemonsFilter}) => {
   const handleChange = (e) =>{
     setpokemos({...pokemos,
       searchtext: e.target.value
     })
-    // let pokemonFilter = pokemos.pokemons.filter(p => e.target.value == pokemonsFilter);
+    // let pokemonsWithout = pokemos.pokemons.filter(p=>p.name!=pokemonName);
+    let pokemonFilter = pokemos.pokemons.filter(p => p.name == pokemonsFilter);
     // console.log(pokemonFilter);
     console.log(e.target.value);
   };
+
+  const BuscaPokemonPrueba = (searchValue) =>{
+    setsearchPokemon(searchValue);
+    console.log(searchPokemon);
+  }
+
+
   return(
     <div className="input-group mb-3 campoSearch">
       {/* {pokemos.searchtext} */}
@@ -71,14 +100,17 @@ const Busqueda = () => {
         value={pokemos.searchtext}
         placeholder="Search Pokemon"
     />
-      <button className="btn btn-primary">
+      {/* <button className="btn btn-primary">
       🔍
-      </button>
-      <input 
+      </button> */}
+      {/* <input 
       className='search form-control'
       type='text'
       placeholder="Search Pokemon 2"
-      />
+      onChange={(e)=>BuscaPokemonPrueba(e.target.value)}
+      value={searchPokemon}
+      /> */}
+      {searchPokemon}
     </div>
       
   );
