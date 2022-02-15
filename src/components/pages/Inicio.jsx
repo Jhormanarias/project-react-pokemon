@@ -151,7 +151,8 @@ const BtnRegresar = ({pokeOffsett}) => {
     setpokemos({...pokemos,
       status: "Noloaded",
       offsett: pokeOffsett-6,
-      paginador: pokemos.paginador-1});
+      paginador: pokemos.paginador-1,
+      searchtext : ""});
   };
 
   if(pokeOffsett>0){
@@ -210,7 +211,8 @@ const BtnAvanzar = ({pokeOffsett}) => {
     setpokemos({...pokemos,
       status: "Noloaded",
       offsett: pokeOffsett+6,
-      paginador: pokemos.paginador+1});
+      paginador: pokemos.paginador+1,
+      searchtext : ""});
   };
 
   return(
