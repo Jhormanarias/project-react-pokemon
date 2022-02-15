@@ -12,7 +12,9 @@ const initialState = {
   pokemon : {
     pokemons : [],
     status : "Noloaded",
-    searchtext : ""
+    searchtext : "",
+    offsett : 0,
+    paginador : 0
   }
 };
 //Para exportar el inicio
@@ -27,7 +29,7 @@ export const Inicio = () => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if(pokemos.status=="Noloaded"){
       //peticion
-    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=30`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=6&offset=${pokemos.offsett}`)
     .then(({data}) => {
       console.log(data);
     //let pokemosApi = data.results;
@@ -142,10 +144,91 @@ const Button = ({ pokemonName }) => {
 };
 //Fin botón eliminar-------------------------------------------------------------------
 
+// Botón Regresar---------------------------------------------------------------------
+
+const BtnRegresar = ({pokeOffsett}) => {
+  const onClickRegresar = ()=>{
+    setpokemos({...pokemos,
+      status: "Noloaded",
+      offsett: pokeOffsett-6,
+      paginador: pokemos.paginador-1});
+  };
+
+  if(pokeOffsett>0){
+    return(
+      <div className="col-md-5">
+        <button 
+        type="button" 
+        class="btn btn-dark"
+        onClick={()=>onClickRegresar()}
+        >⬅️</button>
+      </div>
+    )
+  }
+  else{
+    return(
+      <div className="col-md-5">
+        
+      </div>
+    )
+  }
+
+  
+};
+
+// Fin Botón Regresar---------------------------------------------------------------------
+
+// Paginador------------------------------------------------------------------------------
+const Paginador = ()=>{
+
+  const handleChange = (e)=>{
+    let page = e.target.value;
+    setpokemos({...pokemos,
+    paginador: page,
+    offsett: page*6,
+    status: "Noloaded"})
+  }
+
+  return(
+    <div className="col-md-2">
+      <input
+        className='search form-control text-center'
+        type='text'
+        onChange={handleChange}
+        value={pokemos.paginador}
+      />
+    </div>
+  )
+}
+// Fin Paginador------------------------------------------------------------------------
+
+// Botón Avanzar---------------------------------------------------------------------
+
+const BtnAvanzar = ({pokeOffsett}) => {
+
+  const onClickAvanzar = ()=>{
+    setpokemos({...pokemos,
+      status: "Noloaded",
+      offsett: pokeOffsett+6,
+      paginador: pokemos.paginador+1});
+  };
+
+  return(
+    <div className="col-md-5">
+      <button 
+      type="button" 
+      class="btn btn-dark"
+      onClick={()=>onClickAvanzar()}
+      >➡️</button>
+    </div>
+  )
+};
+
+// Fin Botón Avanzar---------------------------------------------------------------------
+
 //Inicio del return del inicio(página inicio, componente)------------------------------------
   return (
     <div>
-      <h1>
         {/* Titulo en imagen */}
         <img
           style={{ cursor: "pointer" }}
@@ -158,22 +241,29 @@ const Button = ({ pokemonName }) => {
         {/*  */}
         <Busqueda />
         {/* Aquí recorremos cada uno de los pokemon que trajo con la funcion map(que sirve para recorrer un objeto)*/}
-        {pokemos.pokemons.map(pokemon=>{
-          return(
-            <div>
-                <div id={"pokeCard_"+pokemon.name} pokemonsFilter={pokemon.name} >
-                  {/* Aquí traemos el nombre del pokemon */}
-                  {pokemon.name}
-                  {/* Imprimimos en consola lo que trae pokemon */}
-                  {console.log(pokemon)}
-                  {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
-                  <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
-                  <Button pokemonName={pokemon.name} />
-                </div>
-            </div>
-          )
-        })}
-      </h1>
+        <div className="container-fluid">
+          <div className="row">
+            <BtnRegresar pokeOffsett={pokemos.offsett} />
+            <Paginador />
+            <BtnAvanzar pokeOffsett={pokemos.offsett} />
+            {pokemos.pokemons.map(pokemon=>{
+              return(
+                    <div className="col-md-4 mb-5">
+                      <div id={"pokeCard_"+pokemon.name} pokemonsFilter={pokemon.name} >
+                        {/* Aquí traemos el nombre del pokemon */}
+                        <h2>{pokemon.name}</h2>
+                        {/* Imprimimos en consola lo que trae pokemon */}
+                        {console.log(pokemon)}
+                        {/* Aquí para la src de la imagen lo traemos de la we pokemondb y para saber que pokemon es le asignamos el nombre que anteriormente traimos */}
+                        <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
+                        <Button pokemonName={pokemon.name} />
+                      </div>
+                    </div>
+              ) // END RETURN
+            })}
+            {/* END POKEMON.MAP */}
+          </div>
+        </div>
       
     </div>
   );
