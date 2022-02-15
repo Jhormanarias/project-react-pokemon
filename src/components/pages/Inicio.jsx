@@ -14,6 +14,7 @@ const initialState = {
     status : "Noloaded",
     searchtext : "",
     offsett : 0,
+    limit: 6,
     paginador : 0
   }
 };
@@ -29,7 +30,7 @@ export const Inicio = () => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if(pokemos.status=="Noloaded"){
       //peticion
-    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=6&offset=${pokemos.offsett}`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
     .then(({data}) => {
       console.log(data);
     //let pokemosApi = data.results;
@@ -150,8 +151,8 @@ const BtnRegresar = ({pokeOffsett}) => {
   const onClickRegresar = ()=>{
     setpokemos({...pokemos,
       status: "Noloaded",
-      offsett: pokeOffsett-6,
-      paginador: pokemos.paginador-1,
+      offsett: pokeOffsett-pokemos.limit,
+      paginador: parseInt(pokemos.paginador)-1,
       searchtext : ""});
   };
 
@@ -179,28 +180,51 @@ const BtnRegresar = ({pokeOffsett}) => {
 
 // Fin Botón Regresar---------------------------------------------------------------------
 
-// Paginador------------------------------------------------------------------------------
-const Paginador = ()=>{
+//Filtro de cuantos pokemon Mostrar------------------------------------------------
+const FiltroNpokemon = ({pokeFilter})=>{
 
   const handleChange = (e)=>{
-    let page = e.target.value;
-    setpokemos({...pokemos,
-    paginador: page,
-    offsett: page*6,
-    status: "Noloaded"})
+    console.log(e);
   }
 
   return(
-    <div className="col-md-2">
-      <input
-        className='search form-control text-center'
-        type='text'
-        onChange={handleChange}
-        value={pokemos.paginador}
-      />
+    <div className="col-md-1">
+      <select className="form-select" aria-label="Default select example"
+      onChange={handleChange}>
+        {/* <option selected>6</option> */}
+        <option value="1">12</option>
+        <option value="2">24</option>
+        <option value="3">48</option>
+      </select>
     </div>
+    
   )
-}
+};
+
+//Fin Filtro de cuantos pokemon Mostrar------------------------------------------------
+
+// Paginador------------------------------------------------------------------------------
+// const Paginador = ()=>{
+
+//   const handleChange = (e)=>{
+//     let page = e.target.value;
+//     setpokemos({...pokemos,
+//     paginador: page,
+//     offsett: page*6,
+//     status: "Noloaded"})
+//   }
+
+//   return(
+//     <div className="col-md-2">
+//       <input
+//         className='search form-control text-center'
+//         type='text'
+//         onChange={handleChange}
+//         value={pokemos.paginador}
+//       />
+//     </div>
+//   )
+// }
 // Fin Paginador------------------------------------------------------------------------
 
 // Botón Avanzar---------------------------------------------------------------------
@@ -210,8 +234,8 @@ const BtnAvanzar = ({pokeOffsett}) => {
   const onClickAvanzar = ()=>{
     setpokemos({...pokemos,
       status: "Noloaded",
-      offsett: pokeOffsett+6,
-      paginador: pokemos.paginador+1,
+      offsett: pokeOffsett+pokemos.limit,
+      paginador: parseInt(pokemos.paginador)+1,
       searchtext : ""});
   };
 
@@ -246,7 +270,8 @@ const BtnAvanzar = ({pokeOffsett}) => {
         <div className="container-fluid">
           <div className="row">
             <BtnRegresar pokeOffsett={pokemos.offsett} />
-            <Paginador />
+            {/* <Paginador /> */}
+            <FiltroNpokemon pokeFilter={pokemos.limit} />
             <BtnAvanzar pokeOffsett={pokemos.offsett} />
             {pokemos.pokemons.map(pokemon=>{
               return(
