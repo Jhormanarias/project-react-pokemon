@@ -1,6 +1,7 @@
 //Importamos Librerias
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Select from "react-select";
 
 //Iniciamos un estado con variable contador(No se usa) 
 //y variable/objeto pokemon donde tiene:
@@ -181,21 +182,31 @@ const BtnRegresar = ({pokeOffsett}) => {
 // Fin Botón Regresar---------------------------------------------------------------------
 
 //Filtro de cuantos pokemon Mostrar------------------------------------------------
-const FiltroNpokemon = ({pokeFilter})=>{
+const FiltroNpokemon = ()=>{
+
+  const options = [
+    { value: 6 , label: '6' },
+    { value: 30 , label: '30' },
+    { value: 120 , label: '120' }
+  ];
 
   const handleChange = (e)=>{
-    console.log(e);
+    console.log(e.value);
+    let selectValue = e.value;
+    setpokemos({...pokemos,
+      limit: selectValue,
+      status: "Noloaded",
+    })
   }
 
   return(
     <div className="col-md-1">
-      <select className="form-select" aria-label="Default select example"
-      onChange={handleChange}>
-        {/* <option selected>6</option> */}
-        <option value="1">12</option>
-        <option value="2">24</option>
-        <option value="3">48</option>
-      </select>
+      <Select 
+        placeholder={pokemos.limit}
+        defaultValue={pokemos.limit}
+        options={options}
+        onChange={handleChange}
+      />
     </div>
     
   )
@@ -271,7 +282,7 @@ const BtnAvanzar = ({pokeOffsett}) => {
           <div className="row">
             <BtnRegresar pokeOffsett={pokemos.offsett} />
             {/* <Paginador /> */}
-            <FiltroNpokemon pokeFilter={pokemos.limit} />
+            <FiltroNpokemon />
             <BtnAvanzar pokeOffsett={pokemos.offsett} />
             {pokemos.pokemons.map(pokemon=>{
               return(
