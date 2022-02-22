@@ -148,16 +148,16 @@ const Button = ({ pokemonName }) => {
 
 // Botón Regresar---------------------------------------------------------------------
 
-const BtnRegresar = ({pokeOffsett}) => {
+const BtnRegresar = () => {
   const onClickRegresar = ()=>{
     setpokemos({...pokemos,
       status: "Noloaded",
-      offsett: pokeOffsett-pokemos.limit,
+      offsett: pokemos.offsett-pokemos.limit,
       paginador: parseInt(pokemos.paginador)-1,
       searchtext : ""});
   };
 
-  if(pokeOffsett>0){
+  if(pokemos.offsett>0){
     return(
       <div className="col-md-5">
         <button 
@@ -240,25 +240,37 @@ const FiltroNpokemon = ()=>{
 
 // Botón Avanzar---------------------------------------------------------------------
 
-const BtnAvanzar = ({pokeOffsett}) => {
+const BtnAvanzar = () => {
 
   const onClickAvanzar = ()=>{
     setpokemos({...pokemos,
       status: "Noloaded",
-      offsett: pokeOffsett+pokemos.limit,
+      offsett: pokemos.offsett+pokemos.limit,
       paginador: parseInt(pokemos.paginador)+1,
       searchtext : ""});
   };
 
-  return(
-    <div className="col-md-5">
-      <button 
-      type="button" 
-      class="btn btn-dark"
-      onClick={()=>onClickAvanzar()}
-      >➡️</button>
-    </div>
-  )
+  if(pokemos.offsett<1126){
+    return(
+      <div className="col-md-5">
+        <button 
+        type="button" 
+        class="btn btn-dark"
+        onClick={()=>onClickAvanzar()}
+        >➡️</button>
+      </div>
+    )
+  }
+  else{
+    return(
+      <div className="col-md-5">
+        
+      </div>
+    )
+  }
+
+
+  
 };
 
 // Fin Botón Avanzar---------------------------------------------------------------------
@@ -280,10 +292,10 @@ const BtnAvanzar = ({pokeOffsett}) => {
         {/* Aquí recorremos cada uno de los pokemon que trajo con la funcion map(que sirve para recorrer un objeto)*/}
         <div className="container-fluid">
           <div className="row">
-            <BtnRegresar pokeOffsett={pokemos.offsett} />
+            <BtnRegresar />
             {/* <Paginador /> */}
             <FiltroNpokemon />
-            <BtnAvanzar pokeOffsett={pokemos.offsett} />
+            <BtnAvanzar />
             {pokemos.pokemons.map(pokemon=>{
               return(
                     <div className="col-md-4 mb-5">
