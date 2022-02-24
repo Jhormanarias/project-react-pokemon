@@ -42,7 +42,7 @@ export const Pagination = ()=>{
             { value: 30, label: '30' },
             { value: 120, label: '120' }
         ];
-        
+
         return (
             <div className="col-md-2">
                 <Select
@@ -90,9 +90,6 @@ export const Pagination = ()=>{
                 </div>
             )
         }
-
-
-
     };
 
   // Fin Botón Avanzar---------------------------------------------------------------------

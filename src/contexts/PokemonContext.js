@@ -2,14 +2,14 @@ import React, { createContext,useState,useEffect } from 'react';
 import axios from 'axios';
 
 const initialState = {
-    count : 0,
     pokemon : {
       pokemons : [],
       status : "Noloaded",
       searchtext : "",
       offsett : 0,
       limit: 6,
-      paginador : 0
+      paginador : 0,
+      count: 0
     }
   };
 
@@ -34,6 +34,7 @@ export const PokemonContextProvider = ({children}) =>{
       //2 cambiar el status a cargado, para que no ejecute la petición infinitamente
       setpokemos({...pokemos,
         pokemons:data.results,
+        count: data.count,
         status: "loaded"}
       );
   
