@@ -60,9 +60,41 @@ export const PokemonContextProvider = ({children}) =>{
     }, [pokemos.searchtext])
     //Para searchtext------------------------------------------------------------------------
 
+    //Para cuando se elimina un pokemon-------------------------------------------------
+    const functionPokemon = (pokemonName)=>{
+      let pokemonsWithout = pokemos.pokemons.filter(p=>p.name!=pokemonName);
+      console.log(pokemonsWithout);
+      setpokemos({...pokemos,
+      pokemons: pokemonsWithout})
+    };
+    //Para cuando se elimina un pokemon-------------------------------------------------
+
+    //Para cuando se hace click en el botón regresar-------------------------------------
+    const onClickRegresar = () => {
+      setpokemos({
+          ...pokemos,
+          status: "Noloaded",
+          offsett: pokemos.offsett - pokemos.limit,
+          paginador: parseInt(pokemos.paginador) - 1,
+          searchtext: ""
+      });
+    };
+  //Para cuando se hace click en el botón regresar-------------------------------------
+
+  //FiltroNPokemon---------------------------------------------------------------------
+  const handleChangeFilter = (e) => {
+    console.log(e.value);
+    let selectValue = e.value;
+    setpokemos({
+      ...pokemos,
+      limit: selectValue,
+      status: "Noloaded",
+    })
+  }
+  //FiltroNPokemon---------------------------------------------------------------------
 
     return (
-        <PokemonContext.Provider value={[{pokemos,searchPokemon},{setpokemos,setsearchPokemon}]}>
+        <PokemonContext.Provider value={[{pokemos,searchPokemon},{setpokemos,setsearchPokemon,functionPokemon,onClickRegresar,handleChangeFilter}]}>
             {children}
         </PokemonContext.Provider>
     )

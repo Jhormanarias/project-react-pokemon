@@ -7,20 +7,11 @@ import Select from 'react-select';
 //Export Component Pagination-------------------------------------------------------------
 export const Pagination = ()=>{
 
-    const [{pokemos},{setpokemos}] = useContext(PokemonContext);
+    const [{pokemos},{setpokemos,onClickRegresar,handleChangeFilter}] = useContext(PokemonContext);
     const maxCount = 1126;
     
     // Botón Regresar---------------------------------------------------------------------
     const BtnRegresar = () => {
-        const onClickRegresar = () => {
-            setpokemos({
-                ...pokemos,
-                status: "Noloaded",
-                offsett: pokemos.offsett - pokemos.limit,
-                paginador: parseInt(pokemos.paginador) - 1,
-                searchtext: ""
-            });
-        };
 
         if (pokemos.offsett > 0) {
             return (
@@ -40,8 +31,6 @@ export const Pagination = ()=>{
                 </div>
             )
         }
-
-
     };
     // Fin Botón Regresar---------------------------------------------------------------------
 
@@ -53,24 +42,14 @@ export const Pagination = ()=>{
             { value: 30, label: '30' },
             { value: 120, label: '120' }
         ];
-
-        const handleChange = (e) => {
-            console.log(e.value);
-            let selectValue = e.value;
-            setpokemos({
-                ...pokemos,
-                limit: selectValue,
-                status: "Noloaded",
-            })
-        }
-
+        
         return (
             <div className="col-md-2">
                 <Select
                     placeholder={pokemos.limit}
                     defaultValue={pokemos.limit}
                     options={options}
-                    onChange={handleChange}
+                    onChange={handleChangeFilter}
                 />
             </div>
 

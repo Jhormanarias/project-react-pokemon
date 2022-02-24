@@ -6,19 +6,12 @@ import { PokemonContext } from '../../../contexts/PokemonContext';
 //Export Component Botón Delete----------------------------------------------------------
 export const Delete = ({pokemonName}) => {
 
-    const [{pokemos},{setpokemos}] = useContext(PokemonContext);
+    const [{pokemos},{setpokemos,functionPokemon}] = useContext(PokemonContext);
 
-
-    const functionPokemon = ()=>{
-      let pokemonsWithout = pokemos.pokemons.filter(p=>p.name!=pokemonName);
-      console.log(pokemonsWithout);
-      setpokemos({...pokemos,
-      pokemons: pokemonsWithout})
-    }
    return (
     // <div class="d-grid gap-2 mt-3">
         <button className="btn btn-danger"
-            onClick={() => functionPokemon()}>
+            onClick={() => functionPokemon(pokemonName)}>
             X
             <icon setpokemos={setpokemos}></icon>
         </button>
