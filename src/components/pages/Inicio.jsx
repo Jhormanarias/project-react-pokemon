@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Select from "react-select";
+import { Link } from 'react-router-dom';
 
 //Iniciamos un estado con variable contador(No se usa) 
 //y variable/objeto pokemon donde tiene:
@@ -69,11 +70,11 @@ export const Inicio = () => {
 
 
 
-  //Esto es de una prueba anterior
-  const cambiarpokemon = () => {
-    let pokemosApi = ["4", "5"];
-    setpokemos(pokemosApi);
-  };
+  // //Esto es de una prueba anterior
+  // const cambiarpokemon = () => {
+  //   let pokemosApi = ["4", "5"];
+  //   setpokemos(pokemosApi);
+  // };
 
 //Input para busqueda-----------------------------------------------------------------------
 //        {pokemonsFilter}
@@ -279,12 +280,14 @@ const BtnAvanzar = () => {
   return (
     <div>
         {/* Titulo en imagen */}
+        <Link className="nav-link" to="/">
         <img
           style={{ cursor: "pointer" }}
-          onClick={() => cambiarpokemon()}
           src="./logoPokemon.png"
           width="500"
         />
+        </Link>
+        
         <br />
         {/* Llamo al componente busqueda */}
         {/*  */}

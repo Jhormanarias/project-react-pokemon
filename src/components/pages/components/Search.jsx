@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import { PokemonContext } from "../../../contexts/PokemonContext";
-import Inicio from "../Inicio";
 
 
 //Input para busqueda-----------------------------------------------------------------------
