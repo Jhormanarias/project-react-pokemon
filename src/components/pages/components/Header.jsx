@@ -1,8 +1,10 @@
+//Imports Components---------------------------------------------------------------------
 import React from 'react';
 import { Link } from 'react-router-dom';
+//Imports Components---------------------------------------------------------------------
 
-
-const Header = ()=>{
+//Export Component Header----------------------------------------------------------------
+export const Header = ()=>{
 
     return(
         <div>
@@ -17,6 +19,4 @@ const Header = ()=>{
         </div>
     )
 }
-
-
-export default Header;
+//Export Component Header----------------------------------------------------------------

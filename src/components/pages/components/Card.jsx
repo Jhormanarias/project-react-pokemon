@@ -1,17 +1,18 @@
+//Imports Components---------------------------------------------------------------------
 import React , { useContext } from 'react';
 import { PokemonContext } from '../../../contexts/PokemonContext';
-import Delete from './Delete';
+import {Delete} from './Delete';
+//Imports Components---------------------------------------------------------------------
 
-
-
-const Card = ()=>{
+//Export Component Card---------------------------------------------------------------
+export const Card = ()=>{
 
     const [{pokemos},{setpokemos}] = useContext(PokemonContext);
 
     return(
         <div className="row">
             {/* //POKEMON.MAP */}
-
+            {/* map recorre cada objeto que tiene pokemons */}
             {pokemos.pokemons.map(pokemon => {
                 return (
                     <div id={"pokeCard_" + pokemon.name} className="col-md-4 mb-3 mt-3 card " pokemonsFilter={pokemon.name}>
@@ -32,21 +33,5 @@ const Card = ()=>{
             {/* END POKEMON.MAP */}
         </div>
     )
-
-    
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  export default Card;
+//Export Component Card---------------------------------------------------------------

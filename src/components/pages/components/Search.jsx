@@ -1,9 +1,11 @@
+//Imports Components---------------------------------------------------------------------
 import React, {useContext} from "react";
 import { PokemonContext } from "../../../contexts/PokemonContext";
+//Imports Components---------------------------------------------------------------------
 
 
-//Input para busqueda-----------------------------------------------------------------------
-const Busqueda = ({pokemonsFilter}) => {
+//Export Component Busqueda---------------------------------------------------------------
+export const Busqueda = ({pokemonsFilter}) => {
     const [{pokemos,searchPokemon},{setpokemos,setsearchPokemon}] = useContext(PokemonContext)
     const handleChange = (e) =>{
       setpokemos({...pokemos,
@@ -35,8 +37,5 @@ const Busqueda = ({pokemonsFilter}) => {
       </div>
         
     );
-  };
-  //Busqueda-----------------------------------------------------------------------
-  
-
-  export default Busqueda; 
+};
+//Export Component Busqueda---------------------------------------------------------------

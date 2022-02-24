@@ -1,16 +1,15 @@
+//Imports Components---------------------------------------------------------------------
 import React , {useContext} from 'react';
 import { PokemonContext } from '../../../contexts/PokemonContext';
 import Select from 'react-select';
+//Imports Components---------------------------------------------------------------------
 
-
-
-const Pagination = ()=>{
+//Export Component Pagination-------------------------------------------------------------
+export const Pagination = ()=>{
 
     const [{pokemos},{setpokemos}] = useContext(PokemonContext)
-
-
+    
     // Botón Regresar---------------------------------------------------------------------
-
     const BtnRegresar = () => {
         const onClickRegresar = () => {
             setpokemos({
@@ -43,7 +42,6 @@ const Pagination = ()=>{
 
 
     };
-
     // Fin Botón Regresar---------------------------------------------------------------------
 
     //Filtro de cuantos pokemon Mostrar------------------------------------------------
@@ -79,30 +77,6 @@ const Pagination = ()=>{
     };
 
     //Fin Filtro de cuantos pokemon Mostrar------------------------------------------------
-
-    // Paginador------------------------------------------------------------------------------
-    // const Paginador = ()=>{
-
-    //   const handleChange = (e)=>{
-    //     let page = e.target.value;
-    //     setpokemos({...pokemos,
-    //     paginador: page,
-    //     offsett: page*6,
-    //     status: "Noloaded"})
-    //   }
-
-    //   return(
-    //     <div className="col-md-2">
-    //       <input
-    //         className='search form-control text-center'
-    //         type='text'
-    //         onChange={handleChange}
-    //         value={pokemos.paginador}
-    //       />
-    //     </div>
-    //   )
-    // }
-    // Fin Paginador------------------------------------------------------------------------
 
     // Botón Avanzar---------------------------------------------------------------------
 
@@ -143,7 +117,6 @@ const Pagination = ()=>{
 
   // Fin Botón Avanzar---------------------------------------------------------------------
 
-
   return(
       <div className='row'>
           <BtnRegresar />
@@ -152,7 +125,5 @@ const Pagination = ()=>{
       </div>
   )
 
-
 }
-
-export default Pagination;
+//Export Component Pagination-------------------------------------------------------------

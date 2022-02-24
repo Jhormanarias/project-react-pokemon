@@ -1,11 +1,10 @@
+//Imports Components---------------------------------------------------------------------
 import React, { useContext } from 'react';
 import { PokemonContext } from '../../../contexts/PokemonContext';
+//Imports Components---------------------------------------------------------------------
 
-
-
-
-// Botón eliminar---------------------------------------------------------------
-const Delete = ({pokemonName}) => {
+//Export Component Botón Delete----------------------------------------------------------
+export const Delete = ({pokemonName}) => {
 
     const [{pokemos},{setpokemos}] = useContext(PokemonContext);
 
@@ -29,8 +28,5 @@ const Delete = ({pokemonName}) => {
 
      
    );
-  };
-  //Fin botón eliminar-------------------------------------------------------------------
-
-
-  export default Delete;
+};
+//Export Component Botón Delete----------------------------------------------------------
