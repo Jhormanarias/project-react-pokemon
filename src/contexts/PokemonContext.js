@@ -42,6 +42,24 @@ export const PokemonContextProvider = ({children}) =>{
   
     }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
 
+    //Para searchtext------------------------------------------------------------------------
+    useEffect(() => {
+      if(pokemos.searchtext.length>2){
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
+        .then(({data})=>{
+          let array = [data.species];
+          console.log(data);
+          setpokemos({...pokemos,
+          pokemons: array})
+        })
+      }
+      if(pokemos.searchtext.length===0){
+        setpokemos({...pokemos,status:"Noloaded"})
+      }
+      
+    }, [pokemos.searchtext])
+    //Para searchtext------------------------------------------------------------------------
+
 
     return (
         <PokemonContext.Provider value={[{pokemos,searchPokemon},{setpokemos,setsearchPokemon}]}>

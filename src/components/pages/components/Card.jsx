@@ -14,7 +14,7 @@ const Card = ()=>{
 
             {pokemos.pokemons.map(pokemon => {
                 return (
-                    <div id={"pokeCard_" + pokemon.name} className="col-md-4 mb-3 mt-3 card">
+                    <div id={"pokeCard_" + pokemon.name} className="col-md-4 mb-3 mt-3 card " pokemonsFilter={pokemon.name}>
                         <div class="card-body">
                             {/* Aquí traemos el nombre del pokemon */}
                             <h5 class="card-title">{pokemon.name}</h5>
