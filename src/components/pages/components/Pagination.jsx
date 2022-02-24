@@ -7,7 +7,8 @@ import Select from 'react-select';
 //Export Component Pagination-------------------------------------------------------------
 export const Pagination = ()=>{
 
-    const [{pokemos},{setpokemos}] = useContext(PokemonContext)
+    const [{pokemos},{setpokemos}] = useContext(PokemonContext);
+    const maxCount = 1126;
     
     // Botón Regresar---------------------------------------------------------------------
     const BtnRegresar = () => {
@@ -117,11 +118,47 @@ export const Pagination = ()=>{
 
   // Fin Botón Avanzar---------------------------------------------------------------------
 
+
+  //Boton Groups-------------------------------------------------------------------
+  const BtnGroups = ()=>{
+    
+
+    let limitGroups = Math.round(maxCount/pokemos.limit);
+
+    let btnPagination = [];
+
+    btnPagination.length = limitGroups;
+
+    const handleChange = (e)=>{
+        let page = parseInt(e.target.firstChild.data);
+        console.log(page);
+        setpokemos({...pokemos,
+                paginador: page,
+                offsett: page*6,
+                status: "Noloaded"})
+    }
+
+    console.log(btnPagination);
+    return(
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center mt-3">
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">1</span>
+                </li>
+                <li class="page-item" onClick={handleChange}><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+            </ul>
+        </nav>
+    )
+
+  }
+
   return(
       <div className='row'>
           <BtnRegresar />
           <FiltroNpokemon />
           <BtnAvanzar />
+          <BtnGroups />
       </div>
   )
 
