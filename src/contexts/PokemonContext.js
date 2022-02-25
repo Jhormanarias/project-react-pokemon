@@ -21,9 +21,17 @@ export const PokemonContextProvider = ({children}) =>{
     const [pokemos, setpokemos] = useState(initialState.pokemon); 
     const [searchPokemon, setsearchPokemon] = useState("");
 
-    useEffect(() => {
+    useEffect( async () => {
+
+      //Count
+      // getCount();
+
       //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
       if(pokemos.status=="Noloaded"){
+        let count = await getCount();
+        count = 400;
+        console.log(count);
+        
         //peticion
       axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
       .then(({data}) => {
@@ -34,11 +42,12 @@ export const PokemonContextProvider = ({children}) =>{
       //2 cambiar el status a cargado, para que no ejecute la petición infinitamente
       setpokemos({...pokemos,
         pokemons:data.results,
-        count: data.count,
-        status: "loaded"}
+        status: "loaded",
+        count}
       );
   
     })
+    
       }
   
     }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
@@ -46,7 +55,7 @@ export const PokemonContextProvider = ({children}) =>{
     //Para searchtext------------------------------------------------------------------------
     useEffect(() => {
       if(pokemos.searchtext.length>2){
-        axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
+        axios.get(`https://pokeapi.co/api/v2/p okemon/${pokemos.searchtext}`)
         .then(({data})=>{
           let array = [data.species];
           console.log(data);
@@ -60,6 +69,18 @@ export const PokemonContextProvider = ({children}) =>{
       
     }, [pokemos.searchtext])
     //Para searchtext------------------------------------------------------------------------
+
+    //Para count---------------------------------------------------------------
+    //Count
+    const getCount = ()=>{
+      const url = 'https://pokeapi.co/api/v2/pokemon';
+      return axios.get(url)
+      .then(({data})=>{
+        return data.count;
+      })
+
+    }
+
 
     //Para cuando se elimina un pokemon-------------------------------------------------
     const functionPokemon = (pokemonName)=>{

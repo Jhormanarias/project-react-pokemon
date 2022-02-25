@@ -99,7 +99,7 @@ export const Pagination = ()=>{
   const BtnGroups = ()=>{
     
 
-    let limitGroups = Math.round(maxCount/pokemos.limit);
+    let limitGroups = Math.round(pokemos.count/pokemos.limit);
 
     let btnPagination = [];
 
