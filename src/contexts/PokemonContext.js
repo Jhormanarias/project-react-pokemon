@@ -33,21 +33,15 @@ export const PokemonContextProvider = ({children}) =>{
         console.log(count);
         
         //peticion
-      axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
-      .then(({data}) => {
+        let data = await getPokemons();
         console.log(data);
-      //let pokemosApi = data.results;
-  
-      //Asignamos el estado pokemon, 1 los pokemons que trajo de la petición
-      //2 cambiar el status a cargado, para que no ejecute la petición infinitamente
-      setpokemos({...pokemos,
-        pokemons:data.results,
-        status: "loaded",
-        count}
-      );
-  
-    })
-    
+        
+        //Asignamos el estado pokemon, 1 los pokemons que trajo de la petición
+        //2 cambiar el status a cargado, para que NO ejecute la petición infinitamente
+        setpokemos({...pokemos,
+          pokemons:data,
+          status: "loaded",
+          count});
       }
   
     }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
@@ -61,7 +55,7 @@ export const PokemonContextProvider = ({children}) =>{
           console.log(data);
           setpokemos({...pokemos,
           pokemons: array})
-        })
+        }).catch(e => console.log(e))
       }
       if(pokemos.searchtext.length===0){
         setpokemos({...pokemos,status:"Noloaded"})
@@ -78,7 +72,27 @@ export const PokemonContextProvider = ({children}) =>{
       .then(({data})=>{
         return data.count;
       })
+      .catch(e => {
+        console.log(e);
+        return e;
+      })
 
+    }
+
+    //Para Obtener pokemons--------------------------------------------------------------
+    //Count
+    const getPokemons= ()=>{
+      return axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
+      
+      .then(({data}) => {
+        console.log(data);
+        console.log(data.results);
+        return data.results;
+      })
+      .catch(e => {
+        console.log(e);
+        return e;
+      })
     }
 
 
