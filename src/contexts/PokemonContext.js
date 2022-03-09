@@ -29,18 +29,13 @@ export const PokemonContextProvider = ({children}) =>{
 
     useEffect( async () => {
 
-      //Count
-      // getCount();
-
       //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
       if(pokemos.status=="Noloaded"){
         let count = await getCount();
-        count = 400;
-        console.log(count);
+        
         
         //peticion
         let data = await getPokemons();
-        console.log(data);
         
         //Asignamos el estado pokemon, 1 los pokemons que trajo de la petición
         //2 cambiar el status a cargado, para que NO ejecute la petición infinitamente
@@ -49,6 +44,9 @@ export const PokemonContextProvider = ({children}) =>{
           status: "loaded",
           count});
       }
+      else{
+      }
+      
   
     }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
 
@@ -92,13 +90,11 @@ export const PokemonContextProvider = ({children}) =>{
       return axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
       
       .then(({data}) => {
-        console.log(data);
-        console.log(data.results);
         return data.results;
       })
       .catch(e => {
-        console.log(e);
-        return e;
+        alert("Algo salio mal");
+        
       })
     }
 
@@ -122,24 +118,21 @@ export const PokemonContextProvider = ({children}) =>{
           searchtext: ""
       });
     };
-  //Para cuando se hace click en el botón regresar-------------------------------------
+  //FIN Para cuando se hace click en el botón regresar-------------------------------------
 
-  const onClickCurrentPage = () => {
+  //Para cuando se hace click en algún boton de paginación------------------------------------
+  const onClickCurrentPage = (num) => {
     setpokemos({
         ...pokemos,
         status: "Noloaded",
-        offsett: currentPage.paginador * pokemos.offsett,
+        offsett: num * pokemos.limit,
         searchtext: ""
     });
   };
-
-
-  //Para cuando se hace click en un boton del paginador
-
+  //FIn Para cuando se hace click en algún boton de paginación------------------------------------
 
   //FiltroNPokemon---------------------------------------------------------------------
   const handleChangeFilter = (e) => {
-    console.log(e.value);
     let selectValue = e.value;
     setpokemos({
       ...pokemos,

@@ -8,7 +8,7 @@ import ReactPaginate from 'react-paginate';
 //Export Component Pagination-------------------------------------------------------------
 export const Pagination = () => {
 
-    const [{ pokemos, currentPage}, { setpokemos, setcurrentPage, onClickRegresar, handleChangeFilter, onClickCurrentPage }] = useContext(PokemonContext);
+    const [{ pokemos, currentPage }, { setpokemos, setcurrentPage, onClickRegresar, handleChangeFilter, onClickCurrentPage }] = useContext(PokemonContext);
     const maxCount = 1126;
 
     // Botón Regresar---------------------------------------------------------------------
@@ -73,7 +73,7 @@ export const Pagination = () => {
             });
         };
 
-        if (pokemos.offsett < 1126) {
+        if (pokemos.offsett + pokemos.limit <= 1126) {
             return (
                 <div className="col-md-5">
                     <button
@@ -98,83 +98,30 @@ export const Pagination = () => {
 
     //Boton Groups-------------------------------------------------------------------
     const BtnGroups = () => {
-        let limitGroups = Math.round(pokemos.count / pokemos.limit);
-
-        let contador = [];
-
-        contador.length = limitGroups;
-        let contLenght = contador.length;
-
-        let paginador = pokemos.paginador;
-        
-        console.log(paginador);
-        console.log(contador);
-        console.log(contLenght);
-
-        /*         console.log(contador);
-         */
-        
-
-        /* while (paginador<=limitGroups) {
-            console.log(contador);
-            <button>{paginador}</button>;
-            paginador ++;
-        } */
-
-        
-            /* contador.map( (contLenght) => {
-                contLenght ++;
-                return <button>1</button>
-            }) */
-
-            let forFunc = () =>{
-                for (let i = 0; i <= contLenght; i++) {
-                    contador.push(i)
-                }
-            }
-
-            
-        
-
-
-        /* const handleChange = (e) => {
-            let page = parseInt(e.target.firstChild.data);
-            console.log(page);
-            setpokemos({
-                ...pokemos,
-                paginador: page,
-                offsett: page * 6,
-                status: "Noloaded"
-            })
-
-        } */
-
-        forFunc();
-        console.log(contador);
-
-        let contPage = contador.map((num)=>{
-            setcurrentPage({...currentPage,
-            paginador: num})
-            return <button onClick={()=> onClickCurrentPage()}>{num}</button>
-        })
-
         return (
-            <div>
-                {contPage}
-                
-            </div>
+            <nav aria-label="...">
+                <ul className="pagination pagination-sm col-md-12">
+                    {
+                        Array(Math.round(pokemos.count / pokemos.limit)).fill(1)
+                            .map((num, i) => {
+                                return <li className={'page-item'+(i+1)+' cursor-pointer'}><button className='page-link' onClick={() => onClickCurrentPage(i)}>{i + 1}</button></li>
+                            })
+                    }
+                </ul>
+            </nav>
         )
-
-
     }
 
     return (
         <div className='row'>
+
             <BtnRegresar />
             <FiltroNpokemon />
             <BtnAvanzar />
-            <br />
-            <BtnGroups />
+            <div className="col-md-12 mt-3">
+                <BtnGroups />
+            </div>
+
         </div>
     )
 

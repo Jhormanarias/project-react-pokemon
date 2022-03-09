@@ -20,7 +20,6 @@ export const Card = ()=>{
                             {/* Aquí traemos el nombre del pokemon */}
                             <h5 class="card-title">{pokemon.name}</h5>
                             {/* Imprimimos en consola lo que trae pokemon */}
-                            {console.log(pokemon)}
                             <img className="pokeImg" src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}></img>
                             <Delete pokemonName={pokemon.name}/>
                         </div>
