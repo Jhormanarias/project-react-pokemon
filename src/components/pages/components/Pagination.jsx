@@ -1,15 +1,16 @@
 //Imports Components---------------------------------------------------------------------
-import React , {useContext} from 'react';
+import React, { useContext } from 'react';
 import { PokemonContext } from '../../../contexts/PokemonContext';
 import Select from 'react-select';
+import ReactPaginate from 'react-paginate';
 //Imports Components---------------------------------------------------------------------
 
 //Export Component Pagination-------------------------------------------------------------
-export const Pagination = ()=>{
+export const Pagination = () => {
 
-    const [{pokemos},{setpokemos,onClickRegresar,handleChangeFilter}] = useContext(PokemonContext);
+    const [{ pokemos, currentPage}, { setpokemos, setcurrentPage, onClickRegresar, handleChangeFilter, onClickCurrentPage }] = useContext(PokemonContext);
     const maxCount = 1126;
-    
+
     // Botón Regresar---------------------------------------------------------------------
     const BtnRegresar = () => {
 
@@ -92,54 +93,89 @@ export const Pagination = ()=>{
         }
     };
 
-  // Fin Botón Avanzar---------------------------------------------------------------------
+    // Fin Botón Avanzar---------------------------------------------------------------------
 
 
-  //Boton Groups-------------------------------------------------------------------
-  const BtnGroups = ()=>{
+    //Boton Groups-------------------------------------------------------------------
+    const BtnGroups = () => {
         let limitGroups = Math.round(pokemos.count / pokemos.limit);
 
         let contador = [];
 
         contador.length = limitGroups;
+        let contLenght = contador.length;
 
-        const handleChange = (e) => {
-          let page = parseInt(e.target.firstChild.data);
-          console.log(page);
-          setpokemos({
-              ...pokemos,
-              paginador: page,
-              offsett: page * 6,
-              status: "Noloaded"
-          })
+        let paginador = pokemos.paginador;
         
-        }
+        console.log(paginador);
+        console.log(contador);
+        console.log(contLenght);
 
-        return(
+        /*         console.log(contador);
+         */
+        
+
+        /* while (paginador<=limitGroups) {
+            console.log(contador);
+            <button>{paginador}</button>;
+            paginador ++;
+        } */
+
+        
+            /* contador.map( (contLenght) => {
+                contLenght ++;
+                return <button>1</button>
+            }) */
+
+            let forFunc = () =>{
+                for (let i = 0; i <= contLenght; i++) {
+                    contador.push(i)
+                }
+            }
+
+            
+        
+
+
+        /* const handleChange = (e) => {
+            let page = parseInt(e.target.firstChild.data);
+            console.log(page);
+            setpokemos({
+                ...pokemos,
+                paginador: page,
+                offsett: page * 6,
+                status: "Noloaded"
+            })
+
+        } */
+
+        forFunc();
+        console.log(contador);
+
+        let contPage = contador.map((num)=>{
+            setcurrentPage({...currentPage,
+            paginador: num})
+            return <button onClick={()=> onClickCurrentPage()}>{num}</button>
+        })
+
+        return (
             <div>
-                {
-                    contador.map(
-                        (contador) => {
-                            return(
-                                <button>{pokemos.contador}</button>
-                            )
-                        }
-                    )
-                }   
+                {contPage}
+                
             </div>
         )
 
-        
+
     }
 
-  return(
-      <div className='row'>
-          <BtnRegresar />
-          <FiltroNpokemon />
-          <BtnAvanzar />
-          <br />
-          <BtnGroups />
-      </div>
+    return (
+        <div className='row'>
+            <BtnRegresar />
+            <FiltroNpokemon />
+            <BtnAvanzar />
+            <br />
+            <BtnGroups />
+        </div>
     )
 
 }

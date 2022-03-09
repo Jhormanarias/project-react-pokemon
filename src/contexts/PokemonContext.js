@@ -13,6 +13,11 @@ const initialState = {
     }
   };
 
+  const initialState2 = {
+    paraPaginar : {
+      paginador : 0
+    }
+  }
 
 export const PokemonContext = createContext([]);
 
@@ -20,6 +25,7 @@ export const PokemonContextProvider = ({children}) =>{
     
     const [pokemos, setpokemos] = useState(initialState.pokemon); 
     const [searchPokemon, setsearchPokemon] = useState("");
+    const [currentPage, setcurrentPage] = useState(initialState2.paraPaginar)
 
     useEffect( async () => {
 
@@ -49,13 +55,14 @@ export const PokemonContextProvider = ({children}) =>{
     //Para searchtext------------------------------------------------------------------------
     useEffect(() => {
       if(pokemos.searchtext.length>2){
-        axios.get(`https://pokeapi.co/api/v2/p okemon/${pokemos.searchtext}`)
+        axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
         .then(({data})=>{
           let array = [data.species];
           console.log(data);
           setpokemos({...pokemos,
           pokemons: array})
-        }).catch(e => console.log(e))
+        })
+        .catch(e => console.log(e))
       }
       if(pokemos.searchtext.length===0){
         setpokemos({...pokemos,status:"Noloaded"})
@@ -117,6 +124,19 @@ export const PokemonContextProvider = ({children}) =>{
     };
   //Para cuando se hace click en el botón regresar-------------------------------------
 
+  const onClickCurrentPage = () => {
+    setpokemos({
+        ...pokemos,
+        status: "Noloaded",
+        offsett: currentPage.paginador * pokemos.offsett,
+        searchtext: ""
+    });
+  };
+
+
+  //Para cuando se hace click en un boton del paginador
+
+
   //FiltroNPokemon---------------------------------------------------------------------
   const handleChangeFilter = (e) => {
     console.log(e.value);
@@ -130,7 +150,7 @@ export const PokemonContextProvider = ({children}) =>{
   //FiltroNPokemon---------------------------------------------------------------------
 
     return (
-        <PokemonContext.Provider value={[{pokemos,searchPokemon},{setpokemos,setsearchPokemon,functionPokemon,onClickRegresar,handleChangeFilter}]}>
+        <PokemonContext.Provider value={[{pokemos,searchPokemon,currentPage},{setpokemos,setsearchPokemon,setcurrentPage,functionPokemon,onClickRegresar,handleChangeFilter, onClickCurrentPage}]}>
             {children}
         </PokemonContext.Provider>
     )
