@@ -19,7 +19,7 @@ export const Pokemon = () => {
             <Busqueda />
             <Pagination />
             <Card /> 
-            <button>prueba async</button>
+            <br /><br /><br /><br />
         </div>
     )
 };

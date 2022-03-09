@@ -97,46 +97,50 @@ export const Pagination = ()=>{
 
   //Boton Groups-------------------------------------------------------------------
   const BtnGroups = ()=>{
-    
+        let limitGroups = Math.round(pokemos.count / pokemos.limit);
 
-    let limitGroups = Math.round(pokemos.count/pokemos.limit);
+        let contador = [];
 
-    let btnPagination = [];
+        contador.length = limitGroups;
 
-    btnPagination.length = limitGroups;
+        const handleChange = (e) => {
+          let page = parseInt(e.target.firstChild.data);
+          console.log(page);
+          setpokemos({
+              ...pokemos,
+              paginador: page,
+              offsett: page * 6,
+              status: "Noloaded"
+          })
+        
+        }
 
-    const handleChange = (e)=>{
-        let page = parseInt(e.target.firstChild.data);
-        console.log(page);
-        setpokemos({...pokemos,
-                paginador: page,
-                offsett: page*6,
-                status: "Noloaded"})
+        return(
+            <div>
+                {
+                    contador.map(
+                        (contador) => {
+                            return(
+                                <button>{pokemos.contador}</button>
+                            )
+                        }
+                    )
+                }   
+            </div>
+        )
+
+        
     }
-
-    console.log(btnPagination);
-    return(
-        <nav aria-label="...">
-            <ul class="pagination pagination-sm justify-content-center mt-3">
-                <li class="page-item active" aria-current="page">
-                    <span class="page-link">1</span>
-                </li>
-                <li class="page-item" onClick={handleChange}><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-            </ul>
-        </nav>
-    )
-
-  }
 
   return(
       <div className='row'>
           <BtnRegresar />
           <FiltroNpokemon />
           <BtnAvanzar />
+          <br />
           <BtnGroups />
       </div>
-  )
+    )
 
 }
 //Export Component Pagination-------------------------------------------------------------
