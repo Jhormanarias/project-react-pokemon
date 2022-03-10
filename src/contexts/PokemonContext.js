@@ -33,7 +33,6 @@ export const PokemonContextProvider = ({children}) =>{
       if(pokemos.status=="Noloaded"){
         let count = await getCount();
         
-        
         //peticion
         let data = await getPokemons();
         
@@ -121,14 +120,17 @@ export const PokemonContextProvider = ({children}) =>{
   //FIN Para cuando se hace click en el botón regresar-------------------------------------
 
   //Para cuando se hace click en algún boton de paginación------------------------------------
-  const onClickCurrentPage = (num) => {
+  const onClickCurrentPage = (num,e) => {
     setpokemos({
         ...pokemos,
         status: "Noloaded",
         offsett: num * pokemos.limit,
         searchtext: ""
     });
-  };
+    let btn = e.target;
+    console.log(btn);
+    
+  }
   //FIn Para cuando se hace click en algún boton de paginación------------------------------------
 
   //FiltroNPokemon---------------------------------------------------------------------

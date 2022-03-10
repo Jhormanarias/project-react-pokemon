@@ -99,16 +99,14 @@ export const Pagination = () => {
     //Boton Groups-------------------------------------------------------------------
     const BtnGroups = () => {
         return (
-            <nav aria-label="...">
-                <ul className="pagination pagination-sm col-md-12">
-                    {
-                        Array(Math.round(pokemos.count / pokemos.limit)).fill(1)
-                            .map((num, i) => {
-                                return <li className={'page-item'+(i+1)+' cursor-pointer'}><button className='page-link' onClick={() => onClickCurrentPage(i)}>{i + 1}</button></li>
-                            })
-                    }
-                </ul>
-            </nav>
+            <div className='btn-toolbar justify-content-center mt-4'>
+                {
+                Array(Math.round(pokemos.count / pokemos.limit)).fill(1)
+                    .map((num, i) => {
+                        return <button id={'btnSelect'+i} className='btn btn-outline-secondary' onClick={(e) => onClickCurrentPage(i,e)}>{i + 1}</button>
+                    })
+            }
+            </div>
         )
     }
 
@@ -118,10 +116,7 @@ export const Pagination = () => {
             <BtnRegresar />
             <FiltroNpokemon />
             <BtnAvanzar />
-            <div className="col-md-12 mt-3">
-                <BtnGroups />
-            </div>
-
+            <BtnGroups />
         </div>
     )
 

@@ -10,7 +10,7 @@ export const Card = ()=>{
     const [{pokemos},{setpokemos}] = useContext(PokemonContext);
 
     return(
-        <div className="row">
+        <div className="row mt-4">
             {/* //POKEMON.MAP */}
             {/* map recorre cada objeto que tiene pokemons */}
             {pokemos.pokemons.map(pokemon => {
