@@ -2,36 +2,33 @@
 import React, { useContext } from 'react';
 import { PokemonContext } from '../../../contexts/PokemonContext';
 import Select from 'react-select';
-import ReactPaginate from 'react-paginate';
 //Imports Components---------------------------------------------------------------------
 
 //Export Component Pagination-------------------------------------------------------------
 export const Pagination = () => {
 
-    const [{ pokemos, currentPage }, { setpokemos, setcurrentPage, onClickRegresar, handleChangeFilter, onClickCurrentPage }] = useContext(PokemonContext);
+    const [{ pokemos }, 
+            { setpokemos, onClickRegresar, 
+                handleChangeFilter, onClickCurrentPage, onClickRefresh,
+                onClickAvanzar }] = useContext(PokemonContext);
     const maxCount = 1126;
 
     // Botón Regresar---------------------------------------------------------------------
     const BtnRegresar = () => {
 
-        if (pokemos.offsett > 0) {
+        
             return (
                 <div className="col-md-5">
-                    <button
+                    {pokemos.offsett > 0 && (<button
                         type="button"
                         class="btn btn-dark"
                         onClick={() => onClickRegresar()}
-                    >⬅️</button>
+                    >⬅️</button>)}
+                    
                 </div>
             )
-        }
-        else {
-            return (
-                <div className="col-md-5">
-
-                </div>
-            )
-        }
+        
+        
     };
     // Fin Botón Regresar---------------------------------------------------------------------
 
@@ -63,17 +60,9 @@ export const Pagination = () => {
 
     const BtnAvanzar = () => {
 
-        const onClickAvanzar = () => {
-            setpokemos({
-                ...pokemos,
-                status: "Noloaded",
-                offsett: pokemos.offsett + pokemos.limit,
-                paginador: parseInt(pokemos.paginador) + 1,
-                searchtext: ""
-            });
-        };
+        
 
-        if (pokemos.offsett + pokemos.limit <= 1126) {
+        if (pokemos.offsett + pokemos.limit <= pokemos.count) {
             return (
                 <div className="col-md-5">
                     <button
@@ -102,11 +91,23 @@ export const Pagination = () => {
             <div className='btn-toolbar justify-content-center mt-4'>
                 {
                 Array(Math.round(pokemos.count / pokemos.limit)).fill(1)
-                    .map((num, i) => {
-                        return <button id={'btnSelect'+i} className='btn btn-outline-secondary' onClick={(e) => onClickCurrentPage(i,e)}>{i + 1}</button>
+                    .map((num, pagina) => {
+                        return <button className={`btn btn-outline-secondary${pagina+1==pokemos.paginador ?' active' : ''} `} onClick={(e) => onClickCurrentPage(pagina,e)} value={parseInt(pagina)+1}>{pagina + 1}</button>
                     })
             }
+            {pokemos.paginador}
+            {pokemos.clickPage}
             </div>
+        )
+    }
+
+
+    const BtnRefresh = ()=>{
+
+        return (
+        <div className="col-md-1 justify-content-center">
+            <button className='btn' onClick={()=>onClickRefresh()}>🔄</button>    
+        </div>
         )
     }
 
@@ -117,6 +118,7 @@ export const Pagination = () => {
             <FiltroNpokemon />
             <BtnAvanzar />
             <BtnGroups />
+            <BtnRefresh />
         </div>
     )
 
