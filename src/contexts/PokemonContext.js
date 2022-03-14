@@ -9,8 +9,7 @@ const initialState = {
     offsett: 0,
     limit: 6,
     paginador: 0,
-    count: 0,
-    clickPage: 0
+    count: 0
   }
 };
 

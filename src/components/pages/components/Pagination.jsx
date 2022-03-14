@@ -96,8 +96,6 @@ export const Pagination = () => {
                         return <button className={`btn btn-outline-secondary${pagina+1==pokemos.paginador ?' active' : ''} `} onClick={(e) => onClickCurrentPage(pagina,e)} value={parseInt(pagina)+1}>{pagina + 1}</button>
                     })
             }
-            {pokemos.paginador}
-            {pokemos.clickPage}
             </div>
         )
     }
