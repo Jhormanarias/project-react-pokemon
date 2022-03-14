@@ -91,7 +91,8 @@ export const Pagination = () => {
             <div className='btn-toolbar justify-content-center mt-4'>
                 {
                 Array(Math.round(pokemos.count / pokemos.limit)).fill(1)
-                    .map((num, pagina) => {
+                    .map((num, pagina) => { 
+                            /* En el className hago una condicion para pintar el boton al que le hice click con el estado paginador */
                         return <button className={`btn btn-outline-secondary${pagina+1==pokemos.paginador ?' active' : ''} `} onClick={(e) => onClickCurrentPage(pagina,e)} value={parseInt(pagina)+1}>{pagina + 1}</button>
                     })
             }

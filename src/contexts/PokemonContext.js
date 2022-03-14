@@ -120,15 +120,16 @@ export const PokemonContextProvider = ({ children }) => {
 
   //Para cuando se hace click en algún boton de paginación------------------------------------
   const onClickCurrentPage = (pagina, e) => {
-    console.log(e.target.value);
-    changePage(pagina * pokemos.limit, parseInt(pagina) + 1);
+    //Aquí comparo el estado paginador y el click del boton para no ejecutar petición
+    if(pokemos.paginador != e.target.value){
+      changePage(pagina * pokemos.limit, parseInt(pagina) + 1);
+    } 
   }
   //FIn Para cuando se hace click en algún boton de paginación-----------------------------------
 
   //Cambiar de pagina-----------------------------------------------------------------------
   const changePage = (offset, paginador) => {
-    if (pokemos.paginador != 1) {
-    }
+
     setpokemos({
       ...pokemos,
       status: "Noloaded",
@@ -136,12 +137,6 @@ export const PokemonContextProvider = ({ children }) => {
       paginador: paginador,
       searchtext: ""
     });
-
-
-
-
-
-
   }
 
   //Cambiar de pagina-----------------------------------------------------------------------
