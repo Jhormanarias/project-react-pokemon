@@ -10,6 +10,9 @@ const initialState = {
     limit: 6,
     paginador: 0,
     count: 0
+  },
+  blog:{
+    comment: []
   }
 };
 
@@ -19,6 +22,7 @@ export const PokemonContextProvider = ({ children }) => {
 
   const [pokemos, setpokemos] = useState(initialState.pokemon);
   const [searchPokemon, setsearchPokemon] = useState("");
+  const [pblog, setpblog] = useState(initialState.blog);
 
   useEffect(async () => {
 
@@ -120,9 +124,9 @@ export const PokemonContextProvider = ({ children }) => {
   //Para cuando se hace click en algún boton de paginación------------------------------------
   const onClickCurrentPage = (pagina, e) => {
     //Aquí comparo el estado paginador y el click del boton para no ejecutar petición
-    if(pokemos.paginador != e.target.value){
+    if (pokemos.paginador != e.target.value) {
       changePage(pagina * pokemos.limit, parseInt(pagina) + 1);
-    } 
+    }
   }
   //FIn Para cuando se hace click en algún boton de paginación-----------------------------------
 
@@ -160,13 +164,34 @@ export const PokemonContextProvider = ({ children }) => {
   }
   //FiltroNPokemon---------------------------------------------------------------------
 
+  const getBlog = async () => {
+    return axios.get('http://localhost:8000/allcomments')
+
+      .then(({data}) => {
+        console.log(data);
+        return data;
+      })
+      .catch(e => {
+        alert("Algo salio mal");
+
+      })
+  }
+  
+  getBlog();
+ 
+
+  
+  
+
+
+
   return (
     <PokemonContext.Provider
-      value={[{ pokemos, searchPokemon, },
+      value={[{ pokemos, searchPokemon, pblog },
       {
-        setpokemos, setsearchPokemon,
+        setpokemos, setsearchPokemon, setpblog,
         functionPokemon, onClickRegresar, handleChangeFilter,
-        onClickCurrentPage, onClickRefresh, onClickAvanzar
+        onClickCurrentPage, onClickRefresh, onClickAvanzar, getBlog
       }]}>
 
       {children}
