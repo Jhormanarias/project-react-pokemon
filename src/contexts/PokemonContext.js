@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const initialState = {
   pokemon: {
@@ -9,23 +9,22 @@ const initialState = {
     offsett: 0,
     limit: 6,
     paginador: 0,
-    count: 0
+    count: 0,
   },
-  blog:{
-    comment: []
-  }
+  post: {
+    posts: [],
+    status: "Noloaded",
+  },
 };
 
 export const PokemonContext = createContext([]);
 
 export const PokemonContextProvider = ({ children }) => {
-
   const [pokemos, setpokemos] = useState(initialState.pokemon);
   const [searchPokemon, setsearchPokemon] = useState("");
-  const [pblog, setpblog] = useState(initialState.blog);
+  const [post, setpost] = useState(initialState.post);
 
   useEffect(async () => {
-
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
     if (pokemos.status == "Noloaded") {
       let count = await getCount();
@@ -39,85 +38,89 @@ export const PokemonContextProvider = ({ children }) => {
         ...pokemos,
         pokemons: data,
         status: "loaded",
-        count
+        count,
       });
     }
-
-
   }, [pokemos]); //Aquí pongo a escuchar al useEffect con el estado pokemon
 
   //Para searchtext------------------------------------------------------------------------
   useEffect(() => {
     if (pokemos.searchtext.length > 2) {
-      axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
+      axios
+        .get(`https://pokeapi.co/api/v2/pokemon/${pokemos.searchtext}`)
         .then(({ data }) => {
           let array = [data.species];
           console.log(data);
           setpokemos({
             ...pokemos,
-            pokemons: array
-          })
+            pokemons: array,
+          });
         })
-        .catch(e => console.log(e))
+        .catch((e) => console.log(e));
     }
     if (pokemos.searchtext.length === 0) {
-      setpokemos({ ...pokemos, status: "Noloaded" })
+      setpokemos({ ...pokemos, status: "Noloaded" });
     }
-
-  }, [pokemos.searchtext])
+  }, [pokemos.searchtext]);
   //Para searchtext------------------------------------------------------------------------
 
   //Para count---------------------------------------------------------------
   //Count
   const getCount = () => {
-    const url = 'https://pokeapi.co/api/v2/pokemon';
-    return axios.get(url)
+    const url = "https://pokeapi.co/api/v2/pokemon";
+    return axios
+      .get(url)
       .then(({ data }) => {
         return data.count;
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         return e;
-      })
-
-  }
+      });
+  };
 
   //Para Obtener pokemons--------------------------------------------------------------
   //Count
   const getPokemons = () => {
-    return axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`)
+    return axios
+      .get(
+        `https://pokeapi.co/api/v2/pokemon?limit=${pokemos.limit}&offset=${pokemos.offsett}`
+      )
 
       .then(({ data }) => {
         return data.results;
       })
-      .catch(e => {
+      .catch((e) => {
         alert("Algo salio mal");
-
-      })
-  }
-
+      });
+  };
 
   //Para cuando se elimina un pokemon-------------------------------------------------
   const functionPokemon = (pokemonName) => {
-    let pokemonsWithout = pokemos.pokemons.filter(p => p.name != pokemonName);
+    let pokemonsWithout = pokemos.pokemons.filter((p) => p.name != pokemonName);
     console.log(pokemonsWithout);
     setpokemos({
       ...pokemos,
-      pokemons: pokemonsWithout
-    })
+      pokemons: pokemonsWithout,
+    });
   };
   //Para cuando se elimina un pokemon-------------------------------------------------
 
   //Para cuando se hace click en el botón regresar-------------------------------------
   const onClickRegresar = () => {
-    changePage(pokemos.offsett - pokemos.limit, parseInt(pokemos.paginador) - 1);
+    changePage(
+      pokemos.offsett - pokemos.limit,
+      parseInt(pokemos.paginador) - 1
+    );
   };
   //FIN Para cuando se hace click en el botón regresar-------------------------------------
 
-
   //Para boton avanzar----------------------------------------------------------------
   const onClickAvanzar = () => {
-    changePage(pokemos.offsett + pokemos.limit, parseInt(pokemos.paginador) + 1);
+    changePage(
+      pokemos.offsett + pokemos.limit,
+      parseInt(pokemos.paginador) + 1
+    );
   };
   //FIn Para boton avanzar-----------------------------------------------------------
 
@@ -127,20 +130,19 @@ export const PokemonContextProvider = ({ children }) => {
     if (pokemos.paginador != e.target.value) {
       changePage(pagina * pokemos.limit, parseInt(pagina) + 1);
     }
-  }
+  };
   //FIn Para cuando se hace click en algún boton de paginación-----------------------------------
 
   //Cambiar de pagina-----------------------------------------------------------------------
   const changePage = (offset, paginador) => {
-
     setpokemos({
       ...pokemos,
       status: "Noloaded",
       offsett: offset,
       paginador: paginador,
-      searchtext: ""
+      searchtext: "",
     });
-  }
+  };
 
   //Cambiar de pagina-----------------------------------------------------------------------
 
@@ -148,9 +150,9 @@ export const PokemonContextProvider = ({ children }) => {
   const onClickRefresh = () => {
     setpokemos({
       ...pokemos,
-      status: "Noloaded"
+      status: "Noloaded",
     });
-  }
+  };
   //Fin Para refescar la pagina----------------------------------------------------------------
 
   //FiltroNPokemon---------------------------------------------------------------------
@@ -160,41 +162,55 @@ export const PokemonContextProvider = ({ children }) => {
       ...pokemos,
       limit: selectValue,
       status: "Noloaded",
-    })
-  }
+    });
+  };
   //FiltroNPokemon---------------------------------------------------------------------
 
-  const getBlog = async () => {
-    return axios.get('http://localhost:8000/allcomments')
+  const getPost = async () => {
+    return axios
+      .get("http://localhost:8000/allposts")
 
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log(data);
         return data;
       })
-      .catch(e => {
+      .catch((e) => {
         alert("Algo salio mal");
+      });
+  };
 
-      })
-  }
+  useEffect(() => {
+    if (post.status == "Noloaded") {
+      async function getData() {
+        let posts = await getPost();
+
+        setpost({ ...post, posts, status: "loaded" });
+      }
+      
+      getData();
+    }
+  }, [post]);
+
   
-  getBlog();
- 
-
-  
-  
-
-
 
   return (
     <PokemonContext.Provider
-      value={[{ pokemos, searchPokemon, pblog },
-      {
-        setpokemos, setsearchPokemon, setpblog,
-        functionPokemon, onClickRegresar, handleChangeFilter,
-        onClickCurrentPage, onClickRefresh, onClickAvanzar, getBlog
-      }]}>
-
+      value={[
+        { pokemos, searchPokemon, post },
+        {
+          setpokemos,
+          setsearchPokemon,
+          setpost,
+          functionPokemon,
+          onClickRegresar,
+          handleChangeFilter,
+          onClickCurrentPage,
+          onClickRefresh,
+          onClickAvanzar,
+        },
+      ]}
+    >
       {children}
     </PokemonContext.Provider>
-  )
-}
+  );
+};
