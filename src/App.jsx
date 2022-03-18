@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import { NavBar } from './components/navigation/NavBar';
 import { Inicio } from './components/pages/Inicio';
 import { Pokemon } from './components/pages/Pokemon';
-import { Items } from './components/pages/Items';
+import { Items} from './components/pages/Items';
 import { PokemonContextProvider } from './contexts/PokemonContext';
 
 
