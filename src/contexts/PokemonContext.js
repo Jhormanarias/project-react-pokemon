@@ -14,6 +14,8 @@ const initialState = {
   post: {
     posts: [],
     status: "Noloaded",
+    comment:"",
+    commentStatus: "nadaComentado"
   },
 };
 
@@ -166,12 +168,12 @@ export const PokemonContextProvider = ({ children }) => {
   };
   //FiltroNPokemon---------------------------------------------------------------------
 
+  //Para obtener todos los post y comentarios-----------------------------------------
   const getPost = async () => {
     return axios
-      .get("http://localhost:8000/allposts")
+      .get(`${process.env.REACT_APP_HOST_LUMEN_API}/allposts`)
 
       .then(({ data }) => {
-        console.log(data);
         return data;
       })
       .catch((e) => {
@@ -179,18 +181,45 @@ export const PokemonContextProvider = ({ children }) => {
       });
   };
 
-  useEffect(() => {
+
+  //Para Mandar el comentario----------------------------------------------------
+  const postComment = async ({comment, comment_id, post_id}) => {
+    
+    return axios
+      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createcomment`,{
+        comment, comment_id, post_id, user_id: 1
+      })
+
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((e) => {
+        alert("Algo salio mal");
+      });
+  };
+
+  //Para cargar post--------------------------------------------------------------------
+  useEffect(async () => {
     if (post.status == "Noloaded") {
       async function getData() {
         let posts = await getPost();
 
-        setpost({ ...post, posts, status: "loaded" });
+        if (posts){
+          setpost({ ...post, posts, status: "loaded" });
+        }
+        
       }
-      
       getData();
+      console.log(process);
+      
     }
+
+    
+    
   }, [post]);
 
+  //Para cargar comentarios-------------------------------------------------------------
+  
   
 
   return (
@@ -207,6 +236,7 @@ export const PokemonContextProvider = ({ children }) => {
           onClickCurrentPage,
           onClickRefresh,
           onClickAvanzar,
+          postComment
         },
       ]}
     >

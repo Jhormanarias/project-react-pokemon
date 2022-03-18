@@ -23,22 +23,7 @@ export const Items = () => {
                 <p className="card-text">{post.body}</p>
               </div>
             </div>
-            <div class="input-group mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Aquí va tu comentario :) "
-                aria-label="Aquí va tu comentario :) "
-                aria-describedby="button-addon2"
-              />
-              <button
-                className="btn btn-primary"
-                type="button"
-                id="button-addon2"
-              >
-                Comentar
-              </button>
-            </div>
+            
             <br />
             <Comments comments={post.comentarios} />
           </div>

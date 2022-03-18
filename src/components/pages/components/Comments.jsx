@@ -1,7 +1,25 @@
 import React, { useContext } from "react";
-
+import { PokemonContext } from "../../../contexts/PokemonContext";
 export const Comments = ({ comments }) => {
-  console.log(comments);
+  const [{ post }, { setpost, postComment}] = useContext(PokemonContext);
+
+  const enterComment = async (e,comment_id,post_id) => {
+
+    if (e.key === 'Enter') {
+      let comment = await postComment({
+        comment: e.target.value,
+        comment_id: comment_id,
+        post_id: post_id
+      }
+      );
+      if(comment){
+        setpost({...post,
+                  status: "Noloaded"})
+      }
+
+    }
+    
+  };
   return (
     <div>
       {comments.map((comment) => {
@@ -19,7 +37,7 @@ export const Comments = ({ comments }) => {
                 className="form-control"
                 placeholder="Aquí va tu comentario :) "
                 aria-label="Aquí va tu comentario :) "
-                aria-describedby="button-addon2"
+                onKeyPress={e=>enterComment(e,comment.id,comment.post_id)}
               />
               <button
                 className="btn btn-primary"
