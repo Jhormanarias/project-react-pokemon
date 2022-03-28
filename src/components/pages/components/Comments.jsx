@@ -30,6 +30,9 @@ export const Comments = ({ comments }) => {
             <div class="card text-white bg-secondary mb-3">
               <div class="card-body">
                 <p class="card-text">{comment.comment}</p>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button type="button" class="btn btn-danger"><i className="fa-solid fa-trash"></i></button>
+                </div>
               </div>
             </div>
             <div class="input-group mb-3">
