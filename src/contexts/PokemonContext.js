@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import swal from "sweetalert";
 
 const initialState = {
   pokemon: {
@@ -194,9 +195,95 @@ export const PokemonContextProvider = ({ children }) => {
         return data;
       })
       .catch((e) => {
-        alert("Algo salio mal");
+        if(e.response.status == 422)
+        {
+          alert("Error 422");
+        }
+        else{
+          alert("Algo salio mal");
+        }
+        console.log(e);
+        console.log(e.response.status);
       });
   };
+
+
+  const enterComment = async (e,comment_id,post_id) => {
+    
+    if (e.key === 'Enter') {
+      let comment = await postComment({
+        comment: e.target.value,
+        comment_id: comment_id,
+        post_id: post_id
+      }
+      );
+      if(comment){
+        swal({
+          title: 'Correcto',
+          text: 'Comentario Subido :) ',
+          icon: 'success',
+          button: 'Aceptar',
+          timer: '2000'
+        });
+        e.target.value = "";
+        setpost({...post,
+                  status: "Noloaded"});
+        console.log(comment.id);
+      }
+
+    }
+    
+  };
+
+
+  //Para Mandar el comentario----------------------------------------------------
+
+  //Para eliminar el comentario----------------------------------------------------
+  const deleteComment = (id)=>{
+    return axios
+      .delete(`${process.env.REACT_APP_HOST_LUMEN_API}/deletecomment/${id}`)
+
+      .then(({ data }) => {
+        return data;
+
+      })
+      .catch((e) => {
+        if (e.response.status==409) {
+          alert("Error 409");
+        }
+        else{
+          alert("Algo salio mal");
+        }
+        
+      });
+  };
+
+  const onclickDeleteComment = (id)=>{
+    console.log(id);
+    swal({
+      title: 'Eliminar',
+      text: 'Estas seguro de eliminar?',
+      icon: 'warning',
+      buttons: ['No','Si']
+    }).then(respuesta => {
+      if (respuesta) {
+        deleteComment(id);
+        swal({
+          title: 'Correcto',
+          text: 'Comentario Eliminado :) ',
+          icon: 'success',
+          button: 'Aceptar',
+          timer: '2000'
+        });
+        setpost({...post,
+          status: "Noloaded"});
+      }
+    })
+    
+  }
+  
+  //Para eliminar el comentario----------------------------------------------------
+
 
   //Para cargar post--------------------------------------------------------------------
   useEffect(async () => {
@@ -236,7 +323,9 @@ export const PokemonContextProvider = ({ children }) => {
           onClickCurrentPage,
           onClickRefresh,
           onClickAvanzar,
-          postComment
+          postComment,
+          enterComment,
+          onclickDeleteComment
         },
       ]}
     >
