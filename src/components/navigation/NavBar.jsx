@@ -13,7 +13,7 @@ export const NavBar = () => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav m x-auto">
+                        <div className="navbar-nav mx-auto">
                             <Link className="nav-link" to="/">Inicio</Link>
                             <Link className="nav-link" to="/pokemon">Pokemon</Link>
                             <Link className="nav-link" to="/items">Items</Link>

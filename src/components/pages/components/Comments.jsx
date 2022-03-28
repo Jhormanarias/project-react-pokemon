@@ -13,8 +13,10 @@ export const Comments = ({ comments }) => {
       }
       );
       if(comment){
+        alert('Comentario Subido :) ');
+        e.target.value = "";
         setpost({...post,
-                  status: "Noloaded"})
+                  status: "Noloaded"});
       }
 
     }
@@ -26,7 +28,6 @@ export const Comments = ({ comments }) => {
         return (
           <div key={comment.id}>
             <div class="card text-white bg-secondary mb-3">
-              <div class="card-header"><h5 class="card-title">Comentario</h5></div>
               <div class="card-body">
                 <p class="card-text">{comment.comment}</p>
               </div>

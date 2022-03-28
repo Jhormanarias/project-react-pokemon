@@ -6,7 +6,7 @@ import { Comments } from "./components/Comments";
 export const Items = () => {
   const [{ post }, { setpost }] = useContext(PokemonContext);
   return (
-    <div className="container-fluid">
+    <div className="container-fluid pt-3">
       <h1>Post</h1>
       <br />
       <br />
