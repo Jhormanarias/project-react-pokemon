@@ -2,14 +2,16 @@ import React from "react";
 import { useContext } from "react";
 import { PokemonContext } from "../../contexts/PokemonContext";
 import { Comments } from "./components/Comments";
+import ModalCreatePost from "./components/ModalCreatePost";
 
 export const Items = () => {
   const [{ post }, { setpost, enterComment }] = useContext(PokemonContext);
   return (
     <div className="container-fluid pt-3">
       <h1>Post</h1>
-      <br />
-      <br />
+      <br /><br />
+      <ModalCreatePost />
+      <br /><br />
       {post.posts.map((post) => {
         console.log(post);
         return (

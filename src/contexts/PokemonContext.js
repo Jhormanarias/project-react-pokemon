@@ -16,7 +16,11 @@ const initialState = {
     posts: [],
     status: "Noloaded",
     comment:"",
-    commentStatus: "nadaComentado"
+    commentStatus: "nadaComentado",
+    savePost: {
+      title: "",
+      body: ""
+    }
   },
 };
 
@@ -181,6 +185,79 @@ export const PokemonContextProvider = ({ children }) => {
         alert("Algo salio mal");
       });
   };
+  //Para obtener todos los post y comentarios-----------------------------------------
+
+  //Para crear post--------------------------------------------------------------
+
+  useEffect(async () => {
+    
+    setpost({...post,
+    title:post.title,
+    body:post.body})
+
+  }, [post.title, post.body])
+ 
+
+
+
+  const postPost = async ({title, body}) => {
+    
+    return axios
+      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createpost`,{
+        title, body, user_id: 1
+      })
+
+      .then(({ data }) => {
+        return data;
+      })
+      .catch((e) => {
+        if(e.response.status == 422)
+        {
+          alert("Error 422");
+        }
+        else{
+          alert("Algo salio mal");
+        }
+        console.log(e);
+        console.log(e.response.status);
+      });
+  };
+
+
+  const onclickCrearPost = (e) => {
+    
+      let createPost = postPost({
+        title: post.title,
+        body: post.body
+      }
+      ); 
+
+    if (createPost) {
+      swal('Todo bien');
+      setpost({...post,
+        title: "",
+        body: "",
+        status: "Noloaded"});
+    }
+    
+  };
+
+  const onChangeTitle = (e)=>{
+    
+    setpost({...post,
+              title: e.target.value});
+    console.log(post.title);
+  };
+
+  const onChangeBody = (e)=>{
+    
+    setpost({...post,
+              body: e.target.value});
+    console.log(post.body);
+  } 
+
+
+  //Para crear post--------------------------------------------------------------
 
 
   //Para Mandar el comentario----------------------------------------------------
@@ -207,9 +284,8 @@ export const PokemonContextProvider = ({ children }) => {
       });
   };
 
-
   const enterComment = async (e,comment_id,post_id) => {
-    
+
     if (e.key === 'Enter') {
       let comment = await postComment({
         comment: e.target.value,
@@ -325,7 +401,10 @@ export const PokemonContextProvider = ({ children }) => {
           onClickAvanzar,
           postComment,
           enterComment,
-          onclickDeleteComment
+          onclickDeleteComment,
+          onclickCrearPost,
+          onChangeTitle,
+          onChangeBody
         },
       ]}
     >
