@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { PokemonContext } from "../../../contexts/PokemonContext";
 
 const ModalCreatePost = () => {
-  const [,{ onclickCrearPost, setFieldPost }] = 
+  const [{post},{ onclickCrearPost, setFieldPost, /* showHiddenModal */}] = 
     useContext(PokemonContext);
   return (
     <div className="container-fluid">
@@ -11,18 +11,20 @@ const ModalCreatePost = () => {
         class="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
+        /* onClick={()=>showHiddenModal()} */
       >
         Crear Post
       </button>
 
       <div
-        class="modal fade"
+        class={`${post.modalPost=="block" ?'modal fade show' : 'modal fade'} `}
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabindex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        /* style={post.modalPost=="block" ? {display: "block"} : {display: "none" }} */
       >
         <div class="modal-dialog">
           <div class="modal-content">

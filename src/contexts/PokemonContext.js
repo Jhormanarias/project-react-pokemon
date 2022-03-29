@@ -21,7 +21,8 @@ const initialState = {
       title: "",
       body: ""
     },
-    createPostStatus: ""
+    createPostStatus: "",
+    modalPost: "none"
   },
 };
 
@@ -188,6 +189,15 @@ export const PokemonContextProvider = ({ children }) => {
   };
   //Para obtener todos los post y comentarios-----------------------------------------
 
+  //Ocultar y mostrar modal para crear post
+  /* const showHiddenModal = ()=>{
+    setpost({...post,
+              modalPost: "block"})
+    console.log(post.modalPost);
+  } */
+  //Ocultar y mostrar modal para crear post
+
+
   //Para crear post--------------------------------------------------------------
 
   useEffect(async () => {
@@ -246,12 +256,19 @@ export const PokemonContextProvider = ({ children }) => {
     console.log(createPost);
 
     if (createPost) {
-      swal('Todo bien');
+      swal({
+        icon: 'success',
+        title: 'Todo bien',
+        text: 'Post subido correctamente :)',
+        timer: '5000'
+      })
       setpost({...post,
         title: "",
         body: "",
-        status: "Noloaded"});
+        status: "Noloaded",
+        modalPost: "none"});
     }
+    console.log(post.modalPost);
     
   };
 
@@ -358,7 +375,8 @@ export const PokemonContextProvider = ({ children }) => {
           timer: '2000'
         });
         setpost({...post,
-          status: "Noloaded"});
+          status: "Noloaded",
+          modalPost: "none"});
       }
     })
     
@@ -409,7 +427,8 @@ export const PokemonContextProvider = ({ children }) => {
           enterComment,
           onclickDeleteComment,
           onclickCrearPost,
-          setFieldPost
+          setFieldPost,
+          /* showHiddenModal */
         },
       ]}
     >
