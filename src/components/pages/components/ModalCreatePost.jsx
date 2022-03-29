@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { PokemonContext } from "../../../contexts/PokemonContext";
 
 const ModalCreatePost = () => {
-  const [{ post }, { setpost, onclickCrearPost, onChangeTitle, onChangeBody }] =
+  const [,{ onclickCrearPost, setFieldPost }] = 
     useContext(PokemonContext);
   return (
     <div className="container-fluid">
@@ -46,13 +46,13 @@ const ModalCreatePost = () => {
                     type="text"
                     class="form-control"
                     aria-describedby="titulo"
-                    onChange={(e) => onChangeTitle(e)}
+                    onChange={(e) => setFieldPost(e.target.value, "title")}
                   />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Cuerpo del post</label>
                   <textarea
-                    onChange={(e) => onChangeBody(e)}
+                    onChange={(e) => setFieldPost(e.target.value, "body")}
                     type="text-area"
                     class="form-control"
                   />

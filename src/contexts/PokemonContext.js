@@ -20,7 +20,8 @@ const initialState = {
     savePost: {
       title: "",
       body: ""
-    }
+    },
+    createPostStatus: ""
   },
 };
 
@@ -213,10 +214,15 @@ export const PokemonContextProvider = ({ children }) => {
       .catch((e) => {
         if(e.response.status == 422)
         {
-          alert("Error 422");
+          swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ya existe ese titulo o no ha llenado todos los campos',
+            timer: '5000'
+          })
         }
         else{
-          alert("Algo salio mal");
+          alert("Algo salio muy mal");
         }
         console.log(e);
         console.log(e.response.status);
@@ -225,12 +231,19 @@ export const PokemonContextProvider = ({ children }) => {
 
 
   const onclickCrearPost = (e) => {
+
+    let createPost = postPost({
+      title: post.title,
+      body: post.body});
     
-      let createPost = postPost({
-        title: post.title,
-        body: post.body
+    /* createPost.then(value => {
+      console.log(value);
+      if (value == 422) {
+        swal('Todo Mal', 'El titulo ya se tomo o no ha llenado todos los campos');
       }
-      ); 
+    }); */
+
+    console.log(createPost);
 
     if (createPost) {
       swal('Todo bien');
@@ -242,20 +255,10 @@ export const PokemonContextProvider = ({ children }) => {
     
   };
 
-  const onChangeTitle = (e)=>{
-    
+  const setFieldPost = (value, field)=>{
     setpost({...post,
-              title: e.target.value});
-    console.log(post.title);
-  };
-
-  const onChangeBody = (e)=>{
-    
-    setpost({...post,
-              body: e.target.value});
-    console.log(post.body);
-  } 
-
+    [field]: value});
+  }
 
   //Para crear post--------------------------------------------------------------
 
@@ -325,10 +328,13 @@ export const PokemonContextProvider = ({ children }) => {
       })
       .catch((e) => {
         if (e.response.status==409) {
-          alert("Error 409");
+          return 409
+        }
+        if (e.response.status==422) {
+          return 422
         }
         else{
-          alert("Algo salio mal");
+          return alert("Algo salio muy mal");
         }
         
       });
@@ -343,7 +349,7 @@ export const PokemonContextProvider = ({ children }) => {
       buttons: ['No','Si']
     }).then(respuesta => {
       if (respuesta) {
-        deleteComment(id);
+        deleteComment("id");
         swal({
           title: 'Correcto',
           text: 'Comentario Eliminado :) ',
@@ -403,8 +409,7 @@ export const PokemonContextProvider = ({ children }) => {
           enterComment,
           onclickDeleteComment,
           onclickCrearPost,
-          onChangeTitle,
-          onChangeBody
+          setFieldPost
         },
       ]}
     >
