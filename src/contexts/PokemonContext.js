@@ -15,14 +15,14 @@ const initialState = {
   post: {
     posts: [],
     status: "Noloaded",
-    comment:"",
+    comment: "",
     commentStatus: "nadaComentado",
     savePost: {
       title: "",
-      body: ""
+      body: "",
     },
     createPostStatus: "",
-    modalPost: "none"
+    modalPost: "none",
   },
 };
 
@@ -198,25 +198,18 @@ export const PokemonContextProvider = ({ children }) => {
   } */
   //Ocultar y mostrar modal para crear post
 
-
   //Para crear post--------------------------------------------------------------
 
   useEffect(async () => {
-    
-    setpost({...post,
-    title:post.title,
-    body:post.body})
+    setpost({ ...post, title: post.title, body: post.body });
+  }, [post.title, post.body]);
 
-  }, [post.title, post.body])
- 
-
-
-
-  const postPost = async ({title, body}) => {
-    
+  const postPost = async ({ title, body }) => {
     return axios
-      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createpost`,{
-        title, body, user_id: 1
+      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createpost`, {
+        title,
+        body,
+        users_id: 1,
       })
 
       .then(({ data }) => {
@@ -224,33 +217,53 @@ export const PokemonContextProvider = ({ children }) => {
       })
       .catch((e) => {
         console.log(e.response.data);
-        /* let objectResponse = e.response.data;
-        console.log(objectResponse.values(title)); */
+
+        /* e.response.data.map((object)=>{
+          console.log(object);
+        }) */
+        /* if (e.response.status == 422) {return alert(e.response.data.title)} */
         
-        if(e.response.status == 422)
-        {
+        if (e.response.status == 422) {
+
+          let dataArray = Object.keys(e.response.data);
+
+
+          const concatObjectError = ()=>{
+
+          }
+
+          dataArray.forEach(field => {
+            console.log(e.response.data[field]);
+          });
+          
+          let text = '';
+
           swal({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ya existe ese titulo o no ha llenado todos los campos',
-            timer: '5000'
-          })
-        }
-        else{
+            icon: "error",
+            title: "Oops...",
+            /* Texto */
+            text: `${e.response.data.title==undefined ? ('') : e.response.data.title} 
+             \n ${e.response.data.body==undefined ?('') : e.response.data.body}`,
+             /* Texto */
+            timer: "5000",
+          });
+          console.log(post);
+          console.log(openmodal);
+        } else {
           alert("Algo salio muy mal");
         }
-        console.log(e);
-        console.log(e.response.status);
       });
   };
+  
 
 
-  const onclickCrearPost = (e) => {
 
-    let createPost = postPost({
+  const onclickCrearPost = async (e) => {
+    let createPost = await postPost({
       title: post.title,
-      body: post.body});
-    
+      body: post.body,
+    });
+
     /* createPost.then(value => {
       console.log(value);
       if (value == 422) {
@@ -262,47 +275,47 @@ export const PokemonContextProvider = ({ children }) => {
 
     if (createPost) {
       swal({
-        icon: 'success',
-        title: 'Todo bien',
-        text: 'Post subido correctamente :)',
-        timer: '5000'
-      })
-      setpost({...post,
+        icon: "success",
+        title: "Todo bien",
+        text: "Post subido correctamente :)",
+        timer: "5000",
+      });
+      console.log(post);
+      setpost({
+        ...post,
         title: "",
         body: "",
         status: "Noloaded",
-        modalPost: "none"});
+        modalPost: "none",
+      });
       setopenmodal(false);
     }
     console.log(post.modalPost);
-    
   };
 
-  const setFieldPost = (value, field)=>{
-    setpost({...post,
-    [field]: value});
-  }
+  const setFieldPost = (value, field) => {
+    setpost({ ...post, [field]: value });
+  };
 
   //Para crear post--------------------------------------------------------------
 
-
   //Para Mandar el comentario----------------------------------------------------
-  const postComment = async ({comment, comment_id, post_id}) => {
-    
+  const postComment = async ({ comment, comment_id, post_id }) => {
     return axios
-      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createcomment`,{
-        comment, comment_id, post_id, user_id: 1
+      .post(`${process.env.REACT_APP_HOST_LUMEN_API}/createcomment`, {
+        comment,
+        comment_id,
+        post_id,
+        users_id: 1,
       })
 
       .then(({ data }) => {
         return data;
       })
       .catch((e) => {
-        if(e.response.status == 422)
-        {
+        if (e.response.status == 422) {
           alert("Error 422");
-        }
-        else{
+        } else {
           alert("Algo salio mal");
         }
         console.log(e);
@@ -310,86 +323,73 @@ export const PokemonContextProvider = ({ children }) => {
       });
   };
 
-  const enterComment = async (e,comment_id,post_id) => {
-
-    if (e.key === 'Enter') {
+  const enterComment = async (e, comment_id, post_id) => {
+    if (e.key === "Enter") {
       let comment = await postComment({
         comment: e.target.value,
         comment_id: comment_id,
-        post_id: post_id
-      }
-      );
-      if(comment){
+        post_id: post_id,
+      });
+      if (comment) {
         swal({
-          title: 'Correcto',
-          text: 'Comentario Subido :) ',
-          icon: 'success',
-          button: 'Aceptar',
-          timer: '2000'
+          title: "Correcto",
+          text: "Comentario Subido :) ",
+          icon: "success",
+          button: "Aceptar",
+          timer: "2000",
         });
         e.target.value = "";
-        setpost({...post,
-                  status: "Noloaded"});
+        setpost({ ...post, status: "Noloaded" });
         console.log(comment.id);
       }
-
     }
-    
   };
-
 
   //Para Mandar el comentario----------------------------------------------------
 
   //Para eliminar el comentario----------------------------------------------------
-  const deleteComment = (id)=>{
+  const deleteComment = (id) => {
     return axios
       .delete(`${process.env.REACT_APP_HOST_LUMEN_API}/deletecomment/${id}`)
 
       .then(({ data }) => {
         return data;
-
       })
       .catch((e) => {
-        if (e.response.status==409) {
-          return 409
+        if (e.response.status == 409) {
+          return 409;
         }
-        if (e.response.status==422) {
-          return 422
-        }
-        else{
+        if (e.response.status == 422) {
+          return 422;
+        } else {
           return alert("Algo salio muy mal");
         }
-        
       });
   };
 
-  const onclickDeleteComment = (id)=>{
+  const onclickDeleteComment = (id) => {
     console.log(id);
     swal({
-      title: 'Eliminar',
-      text: 'Estas seguro de eliminar?',
-      icon: 'warning',
-      buttons: ['No','Si']
-    }).then(respuesta => {
+      title: "Eliminar",
+      text: "Estas seguro de eliminar?",
+      icon: "warning",
+      buttons: ["No", "Si"],
+    }).then((respuesta) => {
       if (respuesta) {
         deleteComment(id);
         swal({
-          title: 'Correcto',
-          text: 'Comentario Eliminado :) ',
-          icon: 'success',
-          button: 'Aceptar',
-          timer: '2000'
+          title: "Correcto",
+          text: "Comentario Eliminado :) ",
+          icon: "success",
+          button: "Aceptar",
+          timer: "2000",
         });
-        setpost({...post,
-          status: "Noloaded",
-          modalPost: "none"});
+        setpost({ ...post, status: "Noloaded", modalPost: "none" });
       }
-    })
-    
-  }
-  
-  //Para eliminar el comentario----------------------------------------------------
+    });
+  };
 
+  //Para eliminar el comentario----------------------------------------------------
 
   //Para cargar post--------------------------------------------------------------------
   useEffect(async () => {
@@ -397,23 +397,16 @@ export const PokemonContextProvider = ({ children }) => {
       async function getData() {
         let posts = await getPost();
 
-        if (posts){
+        if (posts) {
           setpost({ ...post, posts, status: "loaded" });
         }
-        
       }
       getData();
       console.log(process);
-      
     }
-
-    
-    
   }, [post]);
 
   //Para cargar comentarios-------------------------------------------------------------
-  
-  
 
   return (
     <PokemonContext.Provider
@@ -434,7 +427,7 @@ export const PokemonContextProvider = ({ children }) => {
           onclickDeleteComment,
           onclickCrearPost,
           setFieldPost,
-          setopenmodal
+          setopenmodal,
           /* showHiddenModal */
         },
       ]}
