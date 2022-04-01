@@ -32,6 +32,7 @@ export const PokemonContextProvider = ({ children }) => {
   const [pokemos, setpokemos] = useState(initialState.pokemon);
   const [searchPokemon, setsearchPokemon] = useState("");
   const [post, setpost] = useState(initialState.post);
+  const [openmodal, setopenmodal] = useState(false);
 
   useEffect(async () => {
     //Solo se va a ejecutar la peticion cuando el estado pokemon aún no haya cargado
@@ -222,6 +223,10 @@ export const PokemonContextProvider = ({ children }) => {
         return data;
       })
       .catch((e) => {
+        console.log(e.response.data);
+        /* let objectResponse = e.response.data;
+        console.log(objectResponse.values(title)); */
+        
         if(e.response.status == 422)
         {
           swal({
@@ -267,6 +272,7 @@ export const PokemonContextProvider = ({ children }) => {
         body: "",
         status: "Noloaded",
         modalPost: "none"});
+      setopenmodal(false);
     }
     console.log(post.modalPost);
     
@@ -366,7 +372,7 @@ export const PokemonContextProvider = ({ children }) => {
       buttons: ['No','Si']
     }).then(respuesta => {
       if (respuesta) {
-        deleteComment("id");
+        deleteComment(id);
         swal({
           title: 'Correcto',
           text: 'Comentario Eliminado :) ',
@@ -412,7 +418,7 @@ export const PokemonContextProvider = ({ children }) => {
   return (
     <PokemonContext.Provider
       value={[
-        { pokemos, searchPokemon, post },
+        { pokemos, searchPokemon, post, openmodal },
         {
           setpokemos,
           setsearchPokemon,
@@ -428,6 +434,7 @@ export const PokemonContextProvider = ({ children }) => {
           onclickDeleteComment,
           onclickCrearPost,
           setFieldPost,
+          setopenmodal
           /* showHiddenModal */
         },
       ]}
