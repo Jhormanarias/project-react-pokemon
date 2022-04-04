@@ -15,7 +15,6 @@ export const Comments = ({ comments }) => {
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <button type="button" class="btn btn-success"><i class="fa-solid fa-pen"></i></button>  {/* editar */}
                   <button type="button" class="btn btn-danger" onClick={()=>onclickDeleteComment(comment.id)}><i className="fa-solid fa-trash"></i></button>  {/* eliminar */}
-                  {comment.id}
                 </div>
               </div>
             </div>

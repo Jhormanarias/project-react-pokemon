@@ -216,39 +216,35 @@ export const PokemonContextProvider = ({ children }) => {
         return data;
       })
       .catch((e) => {
-        console.log(e.response.data);
-
-        /* e.response.data.map((object)=>{
-          console.log(object);
-        }) */
-        /* if (e.response.status == 422) {return alert(e.response.data.title)} */
+        /* console.log(e.response.data); */
         
         if (e.response.status == 422) {
 
           let dataArray = Object.keys(e.response.data);
 
+          let concatMessage = '';
 
           const concatObjectError = ()=>{
-
+            dataArray.forEach(field => {
+              concatMessage = concatMessage+'\n'+e.response.data[field][0];
+            });
           }
 
-          dataArray.forEach(field => {
-            console.log(e.response.data[field]);
-          });
           
-          let text = '';
+          
+          concatObjectError()
 
           swal({
             icon: "error",
             title: "Oops...",
             /* Texto */
-            text: `${e.response.data.title==undefined ? ('') : e.response.data.title} 
-             \n ${e.response.data.body==undefined ?('') : e.response.data.body}`,
+            text: `${concatMessage}`,
+            
+            /* `${e.response.data.title==undefined ? ('') : e.response.data.title} 
+             \n ${e.response.data.body==undefined ?('') : e.response.data.body}`, */
              /* Texto */
             timer: "5000",
           });
-          console.log(post);
-          console.log(openmodal);
         } else {
           alert("Algo salio muy mal");
         }
@@ -271,7 +267,6 @@ export const PokemonContextProvider = ({ children }) => {
       }
     }); */
 
-    console.log(createPost);
 
     if (createPost) {
       swal({
@@ -290,7 +285,6 @@ export const PokemonContextProvider = ({ children }) => {
       });
       setopenmodal(false);
     }
-    console.log(post.modalPost);
   };
 
   const setFieldPost = (value, field) => {
